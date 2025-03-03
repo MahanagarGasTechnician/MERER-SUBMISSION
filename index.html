@@ -26,8 +26,14 @@
       box-shadow: 0 2px 4px rgba(0,0,0,0.1);
       position: relative;
     }
-    #logo { width: 120px; margin-right: 10px; }
-    .headerTitle { font-size: 1.4rem; color: #007b5e; }
+    #logo { 
+      width: 120px; 
+      margin-right: 10px; 
+    }
+    .headerTitle { 
+      font-size: 1.4rem; 
+      color: #007b5e; 
+    }
     /* Hamburger Menu (three-line icon) */
     .menuDots {
       position: absolute;
@@ -110,7 +116,15 @@
       font-weight: 500;
     }
     #errorMessage { color: #dc3545; margin-bottom: 10px; font-size: 0.9rem; }
-    button { padding: 10px 16px; margin: 5px; font-size: 0.95rem; border: none; border-radius: 4px; cursor: pointer; transition: background-color 0.3s; }
+    button {
+      padding: 10px 16px;
+      margin: 5px;
+      font-size: 0.95rem;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
     button:hover { opacity: 0.9; }
     .primaryBtn { background-color: #007BFF; color: #fff; }
     .dangerBtn { background-color: #dc3545; color: #fff; }
@@ -127,10 +141,7 @@
     }
     .stepSection h2 { font-size: 1rem; margin-bottom: 10px; color: #007b5e; }
     .stepSection p { margin: 10px 0; color: #666; font-size: 0.9rem; }
-    .cameraSection {
-      display: none;
-      margin-top: 10px;
-    }
+    .cameraSection { margin-top: 10px; display: none; }
     /* Fullscreen video inside container */
     .cameraSection video { width: 100%; height: auto; }
     video, img { max-width: 320px; margin: 10px; border: 1px solid #ccc; border-radius: 5px; }
@@ -201,7 +212,8 @@
 <body>
   <!-- Header -->
   <header>
-    <img id="logo" src="https://res.cloudinary.com/dly1jfwkn/image/upload/rou3vxedzvrpa0xh42rz.jpg" alt="Mahanagar Gas Logo" />
+    <!-- Updated logo using new Cloudinary public image ID -->
+    <img id="logo" src="https://res.cloudinary.com/dly1jfwkn/image/upload/mmbo0lj2wuwnfuyjrsoi.jpg" alt="Mahanagar Gas Logo" />
     <h1 class="headerTitle">MGL gas status submission portal</h1>
     <!-- Hamburger Menu -->
     <i class="fa fa-bars menuDots" onclick="toggleMenu()"></i>
@@ -219,9 +231,9 @@
       <h2>MGL Login</h2>
       <div id="errorMessage"></div>
       <input type="text" id="bpnInput" placeholder="Enter Business Partner No">
-      <!-- CAPTCHA Section -->
+      <!-- CAPTCHA Section with dynamic background and font -->
       <div style="margin: 10px 0;">
-        <label for="captchaInput">Enter Captcha: <span id="captchaDisplay"></span></label><br>
+        <label for="captchaInput">Enter Captcha: <span id="captchaDisplay" style="padding: 4px 8px; color: #fff;"></span></label><br>
         <input type="text" id="captchaInput" placeholder="Enter captcha">
       </div>
       <button onclick="doLogin()">Login</button>
@@ -457,12 +469,28 @@
     let currentCaptcha = "";
 
     /***************************************************************
-     * CAPTCHA Generation
+     * CAPTCHA Generation with Random Background and Font
      ***************************************************************/
+    function getRandomColor() {
+      const letters = '0123456789ABCDEF';
+      let color = '#';
+      for (let i = 0; i < 6; i++) {
+        color += letters[Math.floor(Math.random() * 16)];
+      }
+      return color;
+    }
+    function getRandomFont() {
+      const fonts = ['Arial', 'Verdana', 'Times New Roman', 'Courier New', 'Georgia', 'Tahoma', 'Trebuchet MS', 'Impact', 'Comic Sans MS'];
+      return fonts[Math.floor(Math.random() * fonts.length)];
+    }
     function generateCaptcha() {
       // Generate a random 4-digit number
       currentCaptcha = Math.floor(1000 + Math.random() * 9000).toString();
-      document.getElementById("captchaDisplay").innerText = currentCaptcha;
+      const captchaDisplay = document.getElementById("captchaDisplay");
+      captchaDisplay.innerText = currentCaptcha;
+      // Set a random background color and random font for the captcha
+      captchaDisplay.style.backgroundColor = getRandomColor();
+      captchaDisplay.style.fontFamily = getRandomFont();
     }
 
     /***************************************************************
@@ -489,7 +517,7 @@
     }
 
     /***************************************************************
-     * Login Overlay Functions with CAPTCHA
+     * Login Overlay Functions with Dynamic CAPTCHA
      ***************************************************************/
     const loginOverlay = document.getElementById('loginOverlay');
     const bpnInput = document.getElementById('bpnInput');
@@ -508,7 +536,7 @@
       }
       if (captchaVal !== currentCaptcha) {
         errorMessage.innerText = "Incorrect captcha. Please try again.";
-        generateCaptcha(); // regenerate captcha if wrong
+        generateCaptcha();
         return;
       }
       bpn = val;
