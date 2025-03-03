@@ -5,51 +5,22 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Mahanagar Gas - Meter Submission</title>
   <style>
-    body { font-family: Arial, sans-serif; text-align: center; margin: 0; padding: 0; }
-    header {
-      background-color: #f2f2f2;
-      padding: 10px;
-    }
-    #logo {
-      width: 150px;
-      margin: 10px;
-    }
-    h1, h2, h3 {
-      margin: 10px 0;
-    }
-    #selection, #usingGasSteps, #notUsingGasSteps, #disconnectedOption {
-      margin-top: 20px;
-    }
-    video, img {
-      max-width: 300px;
-      margin: 10px;
-    }
-    .cameraSection {
-      display: none;
-      margin-bottom: 10px;
-    }
-    .stepSection {
-      margin-bottom: 20px;
-    }
-    #timer {
-      font-size: 24px;
-      margin-top: 10px;
-    }
-    textarea {
-      width: 80%;
-      height: 80px;
-      margin: 10px 0;
-    }
+    body { font-family: Arial, sans-serif; text-align: center; margin: 0; padding: 0; background-color: #fdfdfd; }
+    header { background-color: #f2f2f2; padding: 10px; }
+    #logo { width: 150px; margin: 10px; }
+    h1, h2, h3 { margin: 10px 0; }
+    .stepSection { margin: 20px 0; padding: 10px; border: 1px solid #ccc; background-color: #fff; }
+    .cameraSection { display: none; margin: 10px 0; }
+    video, img { max-width: 300px; margin: 10px; }
+    #timer { font-size: 24px; margin-top: 10px; }
+    textarea { width: 80%; height: 80px; margin: 10px 0; }
+    button { padding: 10px 20px; margin: 5px; font-size: 16px; }
   </style>
 </head>
 <body>
   <!-- Header with Logo -->
   <header>
-    <img 
-      id="logo" 
-      src="https://i.ibb.co/BKfPqHv/Mahanagar-Gas-Logo.jpg" 
-      alt="Mahanagar Gas Logo" 
-    />
+    <img id="logo" src="https://i.ibb.co/BKfPqHv/Mahanagar-Gas-Logo.jpg" alt="Mahanagar Gas Logo" />
     <h1>Mahanagar Gas - Meter Submission</h1>
   </header>
 
@@ -90,7 +61,7 @@
       <br>
       <button onclick="nextStepUsingGas(2)">Next</button>
     </div>
-    <!-- Step 3: 30-Second Wait -->
+    <!-- Step 3: Wait for 30 Seconds -->
     <div id="usingStep3" class="stepSection" style="display:none;">
       <h2>Step 3: Wait for 30 seconds</h2>
       <div id="timer">30</div>
@@ -210,7 +181,8 @@
     openCameraMeter1Btn.addEventListener('click', async () => {
       cameraSectionMeter1.style.display = 'block';
       try {
-        const stream = await navigator.mediaDevices.getUserMedia({ video: true });
+        // Use the back camera if available
+        const stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: "environment" } });
         videoMeter1.srcObject = stream;
       } catch (error) {
         alert("Unable to access camera: " + error.message);
@@ -250,7 +222,7 @@
     openCameraFlameBtn.addEventListener('click', async () => {
       cameraSectionFlame.style.display = 'block';
       try {
-        const stream = await navigator.mediaDevices.getUserMedia({ video: true });
+        const stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: "environment" } });
         videoFlame.srcObject = stream;
       } catch (error) {
         alert("Unable to access camera: " + error.message);
@@ -296,7 +268,7 @@
     openCameraMeter2Btn.addEventListener('click', async () => {
       cameraSectionMeter2.style.display = 'block';
       try {
-        const stream = await navigator.mediaDevices.getUserMedia({ video: true });
+        const stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: "environment" } });
         videoMeter2.srcObject = stream;
       } catch (error) {
         alert("Unable to access camera: " + error.message);
@@ -323,7 +295,6 @@
         return;
       }
       try {
-        // Upload images to Cloudinary (assuming your Cloudinary preset & cloud name are set up)
         const meter1Url = await uploadToCloudinary(meter1Blob);
         const flameUrl = await uploadToCloudinary(flameBlob);
         const meter2Url = await uploadToCloudinary(meter2Blob);
@@ -331,7 +302,7 @@
         console.log("Meter 1 URL:", meter1Url);
         console.log("Flame URL:", flameUrl);
         console.log("Meter 2 URL:", meter2Url);
-        // You can now generate a PDF and/or update your Google Sheet as needed.
+        // Here you can generate a PDF and update your Google Sheet if needed.
       } catch (error) {
         alert("Image upload failed: " + error.message);
       }
@@ -350,7 +321,7 @@
     openCameraMeter1NotUsingBtn.addEventListener('click', async () => {
       cameraSectionMeter1NotUsing.style.display = 'block';
       try {
-        const stream = await navigator.mediaDevices.getUserMedia({ video: true });
+        const stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: "environment" } });
         videoMeter1NotUsing.srcObject = stream;
       } catch (error) {
         alert("Unable to access camera: " + error.message);
@@ -387,7 +358,7 @@
     openCameraPipeBtn.addEventListener('click', async () => {
       cameraSectionPipe.style.display = 'block';
       try {
-        const stream = await navigator.mediaDevices.getUserMedia({ video: true });
+        const stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: "environment" } });
         videoPipe.srcObject = stream;
       } catch (error) {
         alert("Unable to access camera: " + error.message);
@@ -419,7 +390,7 @@
         alert("Images uploaded successfully!");
         console.log("Meter 1 URL:", meter1Url);
         console.log("Pipe URL:", pipeUrl);
-        // Generate PDF and/or update Google Sheet as needed.
+        // Here you can generate a PDF and update your Google Sheet if needed.
       } catch (error) {
         alert("Image upload failed: " + error.message);
       }
@@ -427,23 +398,22 @@
 
     /********** 5) METER DISCONNECTED WORKFLOW **********/
     let disconnectedBlob;
-    // For Meter Disconnected, customer enters description and captures a photo.
     const openCameraDisconnectedBtn = document.getElementById('openCameraDisconnected');
     const cameraSectionDisconnected = document.getElementById('cameraSectionDisconnected');
     const videoDisconnected = document.getElementById('videoDisconnected');
     const captureBtnDisconnected = document.getElementById('captureBtnDisconnected');
     const disconnectedPreview = document.getElementById('disconnectedPreview');
-    
+
     openCameraDisconnectedBtn.addEventListener('click', async () => {
       cameraSectionDisconnected.style.display = 'block';
       try {
-        const stream = await navigator.mediaDevices.getUserMedia({ video: true });
+        const stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: "environment" } });
         videoDisconnected.srcObject = stream;
       } catch (error) {
         alert("Unable to access camera: " + error.message);
       }
     });
-    
+
     captureBtnDisconnected.addEventListener('click', () => {
       const canvas = document.createElement('canvas');
       canvas.width = videoDisconnected.videoWidth;
@@ -457,7 +427,7 @@
         cameraSectionDisconnected.style.display = 'none';
       }, 'image/jpeg');
     });
-    
+
     async function submitDisconnected() {
       const description = document.getElementById('disconnectDesc').value;
       if (!description || !disconnectedBlob) {
@@ -469,7 +439,7 @@
         alert("Submission successful!");
         console.log("Disconnected Image URL:", disconnectedUrl);
         console.log("Description:", description);
-        // Generate PDF including description and image, then update Google Sheet as needed.
+        // Here you can generate a PDF including the description and image, and update your Google Sheet if needed.
       } catch (error) {
         alert("Image upload failed: " + error.message);
       }
