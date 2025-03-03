@@ -3,16 +3,12 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>MGL Network - Meter Submission</title>
+  <title>MGL gas status submission portal</title>
   <!-- Font Awesome for icons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
   <style>
-    /* Reset and basic styles */
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
+    /* Reset and Basic Styles */
+    * { box-sizing: border-box; margin: 0; padding: 0; }
     body {
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
       background: linear-gradient(to right, #0096c7, #48cae4);
@@ -30,15 +26,9 @@
       box-shadow: 0 2px 4px rgba(0,0,0,0.1);
       position: relative;
     }
-    #logo {
-      width: 120px;
-      margin-right: 10px;
-    }
-    .headerTitle {
-      font-size: 1.4rem;
-      color: #007b5e;
-    }
-    /* Hamburger Menu */
+    #logo { width: 120px; margin-right: 10px; }
+    .headerTitle { font-size: 1.4rem; color: #007b5e; }
+    /* Hamburger Menu (three-line icon) */
     .menuDots {
       position: absolute;
       right: 10px;
@@ -67,10 +57,8 @@
       border-bottom: 1px solid #eee;
       font-size: 0.9rem;
     }
-    .menuDropdown a:hover {
-      background-color: #f2f2f2;
-    }
-    /* Container */
+    .menuDropdown a:hover { background-color: #f2f2f2; }
+    /* Main Container */
     .container {
       max-width: 700px;
       margin: 20px auto;
@@ -85,10 +73,8 @@
     .loginOverlay {
       display: none;
       position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
       background: rgba(0,0,0,0.5);
       z-index: 9999;
       justify-content: center;
@@ -101,10 +87,7 @@
       width: 300px;
       text-align: center;
     }
-    .loginBox h2 {
-      margin-bottom: 10px;
-      color: #007b5e;
-    }
+    .loginBox h2 { margin-bottom: 10px; color: #007b5e; }
     .loginBox input {
       width: 80%;
       padding: 8px;
@@ -126,35 +109,12 @@
       color: #007b5e;
       font-weight: 500;
     }
-    #errorMessage {
-      color: #dc3545;
-      margin-bottom: 10px;
-      font-size: 0.9rem;
-    }
-    button {
-      padding: 10px 16px;
-      margin: 5px;
-      font-size: 0.95rem;
-      border: none;
-      border-radius: 4px;
-      cursor: pointer;
-      transition: background-color 0.3s;
-    }
-    button:hover {
-      opacity: 0.9;
-    }
-    .primaryBtn {
-      background-color: #007BFF;
-      color: #fff;
-    }
-    .dangerBtn {
-      background-color: #dc3545;
-      color: #fff;
-    }
-    .flashBtn {
-      background-color: #ffcc00;
-      color: #333;
-    }
+    #errorMessage { color: #dc3545; margin-bottom: 10px; font-size: 0.9rem; }
+    button { padding: 10px 16px; margin: 5px; font-size: 0.95rem; border: none; border-radius: 4px; cursor: pointer; transition: background-color 0.3s; }
+    button:hover { opacity: 0.9; }
+    .primaryBtn { background-color: #007BFF; color: #fff; }
+    .dangerBtn { background-color: #dc3545; color: #fff; }
+    .flashBtn { background-color: #ffcc00; color: #333; }
     /* Step Sections */
     .stepSection {
       display: none;
@@ -165,40 +125,17 @@
       background-color: #fafafa;
       text-align: center;
     }
-    .stepSection h2 {
-      font-size: 1rem;
-      margin-bottom: 10px;
-      color: #007b5e;
-    }
-    .stepSection p {
-      margin: 10px 0;
-      color: #666;
-      font-size: 0.9rem;
-    }
+    .stepSection h2 { font-size: 1rem; margin-bottom: 10px; color: #007b5e; }
+    .stepSection p { margin: 10px 0; color: #666; font-size: 0.9rem; }
     .cameraSection {
       display: none;
       margin-top: 10px;
     }
-    /* Make video full-width within its container */
-    .cameraSection video {
-      width: 100%;
-      height: auto;
-    }
-    video, img {
-      max-width: 320px;
-      margin: 10px;
-      border: 1px solid #ccc;
-      border-radius: 5px;
-    }
-    #timer {
-      font-size: 24px;
-      margin-top: 10px;
-      color: #d9534f;
-      font-weight: bold;
-    }
-    .textareaSection {
-      margin: 10px 0;
-    }
+    /* Fullscreen video inside container */
+    .cameraSection video { width: 100%; height: auto; }
+    video, img { max-width: 320px; margin: 10px; border: 1px solid #ccc; border-radius: 5px; }
+    #timer { font-size: 24px; margin-top: 10px; color: #d9534f; font-weight: bold; }
+    .textareaSection { margin: 10px 0; }
     textarea {
       width: 80%;
       height: 80px;
@@ -208,7 +145,7 @@
       border-radius: 4px;
       border: 1px solid #ccc;
     }
-    /* About Submission Process */
+    /* About Submission Process Section */
     .aboutSection {
       margin: 20px 0;
       padding: 15px;
@@ -219,10 +156,7 @@
       font-size: 0.9rem;
       color: #333;
     }
-    .aboutSection h3 {
-      margin-bottom: 8px;
-      color: #007b5e;
-    }
+    .aboutSection h3 { margin-bottom: 8px; color: #007b5e; }
     /* Help / Issue Facing Section */
     .helpForm {
       margin-top: 20px;
@@ -231,11 +165,7 @@
       border-radius: 5px;
       background-color: #fff;
     }
-    .helpForm h3 {
-      color: #007b5e;
-      margin-bottom: 10px;
-      font-size: 1rem;
-    }
+    .helpForm h3 { color: #007b5e; margin-bottom: 10px; font-size: 1rem; }
     .helpForm textarea {
       width: 100%;
       height: 60px;
@@ -252,7 +182,7 @@
       padding: 8px 16px;
       cursor: pointer;
     }
-    /* Contact Info */
+    /* Contact Info Section */
     .contactInfo {
       margin-top: 20px;
       text-align: left;
@@ -262,55 +192,44 @@
       border-radius: 6px;
       padding: 10px;
     }
-    .contactInfo h3 {
-      color: #007b5e;
-      font-size: 1rem;
-      margin-bottom: 6px;
-    }
-    .contactRow {
-      display: flex;
-      align-items: center;
-      margin-bottom: 6px;
-    }
-    .contactRow i {
-      font-size: 1.2rem;
-      margin-right: 8px;
-      color: #007b5e;
-    }
-    .contactNumber {
-      font-weight: 500;
-      color: #333;
-      font-size: 0.9rem;
-    }
+    .contactInfo h3 { color: #007b5e; font-size: 1rem; margin-bottom: 6px; }
+    .contactRow { display: flex; align-items: center; margin-bottom: 6px; }
+    .contactRow i { font-size: 1.2rem; margin-right: 8px; color: #007b5e; }
+    .contactNumber { font-weight: 500; color: #333; font-size: 0.9rem; }
   </style>
 </head>
 <body>
   <!-- Header -->
   <header>
     <img id="logo" src="https://res.cloudinary.com/dly1jfwkn/image/upload/rou3vxedzvrpa0xh42rz.jpg" alt="Mahanagar Gas Logo" />
-    <h1 class="headerTitle">Welcome to Mahanagar Gas Gas Usage Status Submission Portal</h1>
-    <!-- Hamburger Menu (3 lines) -->
+    <h1 class="headerTitle">MGL gas status submission portal</h1>
+    <!-- Hamburger Menu -->
     <i class="fa fa-bars menuDots" onclick="toggleMenu()"></i>
     <div class="menuDropdown" id="menuDropdown">
-      <a href="#" onclick="showCustomerDetails()">Customer Details<br><small>BPN, Name, Address, Meter No, Mobile</small></a>
-      <a href="#" onclick="showSubmissionStatus()">Submission Status</a>
-      <a href="#" onclick="doLogout()">Logout</a>
+      <a href="#" onclick="showCustomerDetails()"><i class="fa fa-info-circle"></i> Customer Details<br><small>(BPN, Name, Address, Meter No, Mobile)</small></a>
+      <a href="#" onclick="showSubmissionStatus()"><i class="fa fa-check-circle"></i> Submission Status</a>
+      <a href="#" onclick="showLoginOverlay()"><i class="fa fa-sign-in-alt"></i> Login</a>
+      <a href="#" onclick="doLogout()"><i class="fa fa-sign-out-alt"></i> Logout</a>
     </div>
   </header>
 
-  <!-- Login Overlay -->
+  <!-- Login Overlay with Dynamic CAPTCHA -->
   <div class="loginOverlay" id="loginOverlay">
     <div class="loginBox">
       <h2>MGL Login</h2>
       <div id="errorMessage"></div>
       <input type="text" id="bpnInput" placeholder="Enter Business Partner No">
+      <!-- CAPTCHA Section -->
+      <div style="margin: 10px 0;">
+        <label for="captchaInput">Enter Captcha: <span id="captchaDisplay"></span></label><br>
+        <input type="text" id="captchaInput" placeholder="Enter captcha">
+      </div>
       <button onclick="doLogin()">Login</button>
     </div>
   </div>
 
   <!-- Main Container -->
   <div class="container">
-    <!-- Page Intro -->
     <p style="color:#007b5e; font-weight:600; margin-bottom:10px;">
       Welcome to Mahanagar Gas’ Meter Submission Portal
     </p>
@@ -336,7 +255,9 @@
     <div class="aboutSection">
       <h3>About Our Submission Process</h3>
       <p>
-        Customers using gas will capture two meter readings—one before and one after a 30-second interval—and a gas flame photo to confirm usage. Those not using gas need to capture a meter photo and a photo of the gas pipe. For disconnected meters, please provide a brief description and a photo of the meter's location.
+        Customers using gas must capture two meter readings (before and after a 30‑second wait) along with a gas flame photo to confirm usage.
+        Those not using gas need to capture a meter photo and a photo of the gas pipe.
+        If your meter is disconnected, please provide a brief description along with a photo of the meter location.
       </p>
     </div>
 
@@ -353,7 +274,7 @@
           <i class="fa fa-bolt"></i> Flash
         </button>
         <div id="cameraSectionMeter1" class="cameraSection">
-          <video id="videoMeter1" autoplay></video><br>
+          <video id="videoMeter1" autoplay playsinline></video><br>
           <button class="primaryBtn" id="captureBtnMeter1">Capture</button>
           <button class="dangerBtn" id="retakeMeter1" style="display:none;">Retake</button>
           <button class="primaryBtn" id="doneMeter1" style="display:none;">Done</button>
@@ -363,11 +284,10 @@
         <br>
         <button class="primaryBtn" onclick="nextStepUsingGas(1)">Next</button>
       </div>
-
       <!-- Step 2: Gas Flame Photo -->
       <div id="usingStep2" class="stepSection">
         <h2><i class="fa fa-fire"></i> Gas Flame Photo</h2>
-        <p>Capture a clear photo of the gas flame to confirm usage.</p>
+        <p>Capture a clear photo of the gas flame.</p>
         <button class="primaryBtn" id="openCameraFlame">
           <i class="fa fa-camera"></i> Open Camera
         </button>
@@ -375,7 +295,7 @@
           <i class="fa fa-bolt"></i> Flash
         </button>
         <div id="cameraSectionFlame" class="cameraSection">
-          <video id="videoFlame" autoplay></video><br>
+          <video id="videoFlame" autoplay playsinline></video><br>
           <button class="primaryBtn" id="captureBtnFlame">Capture</button>
           <button class="dangerBtn" id="retakeFlame" style="display:none;">Retake</button>
           <button class="primaryBtn" id="doneFlame" style="display:none;">Done</button>
@@ -385,19 +305,17 @@
         <br>
         <button class="primaryBtn" onclick="nextStepUsingGas(2)">Next</button>
       </div>
-
       <!-- Step 3: 30-second Timer -->
       <div id="usingStep3" class="stepSection">
         <h2><i class="fa fa-clock"></i> Wait 30 Seconds</h2>
-        <p>Please wait 30 seconds before taking the second meter photo.</p>
+        <p>Please wait 30 seconds before taking your second meter photo.</p>
         <div id="timer">30</div>
         <button class="primaryBtn" onclick="goBackUsingGas(3)">Back</button>
       </div>
-
       <!-- Step 4: Meter's Second Photo -->
       <div id="usingStep4" class="stepSection">
         <h2><i class="fa fa-tachometer-alt"></i> Meter's Second Photo</h2>
-        <p>Capture the meter display again after the wait.</p>
+        <p>Capture your meter display again.</p>
         <button class="primaryBtn" id="openCameraMeter2">
           <i class="fa fa-camera"></i> Open Camera
         </button>
@@ -405,7 +323,7 @@
           <i class="fa fa-bolt"></i> Flash
         </button>
         <div id="cameraSectionMeter2" class="cameraSection">
-          <video id="videoMeter2" autoplay></video><br>
+          <video id="videoMeter2" autoplay playsinline></video><br>
           <button class="primaryBtn" id="captureBtnMeter2">Capture</button>
           <button class="dangerBtn" id="retakeMeter2" style="display:none;">Retake</button>
           <button class="primaryBtn" id="doneMeter2" style="display:none;">Done</button>
@@ -430,7 +348,7 @@
           <i class="fa fa-bolt"></i> Flash
         </button>
         <div id="cameraSectionMeter1NotUsing" class="cameraSection">
-          <video id="videoMeter1NotUsing" autoplay></video><br>
+          <video id="videoMeter1NotUsing" autoplay playsinline></video><br>
           <button class="primaryBtn" id="captureBtnMeter1NotUsing">Capture</button>
           <button class="dangerBtn" id="retakeMeter1NotUsing" style="display:none;">Retake</button>
           <button class="primaryBtn" id="doneMeter1NotUsing" style="display:none;">Done</button>
@@ -451,7 +369,7 @@
           <i class="fa fa-bolt"></i> Flash
         </button>
         <div id="cameraSectionPipe" class="cameraSection">
-          <video id="videoPipe" autoplay></video><br>
+          <video id="videoPipe" autoplay playsinline></video><br>
           <button class="primaryBtn" id="captureBtnPipe">Capture</button>
           <button class="dangerBtn" id="retakePipe" style="display:none;">Retake</button>
           <button class="primaryBtn" id="donePipe" style="display:none;">Done</button>
@@ -477,7 +395,7 @@
         <i class="fa fa-bolt"></i> Flash
       </button>
       <div id="cameraSectionDisconnected" class="cameraSection">
-        <video id="videoDisconnected" autoplay></video><br>
+        <video id="videoDisconnected" autoplay playsinline></video><br>
         <button class="primaryBtn" id="captureBtnDisconnected">Capture</button>
         <button class="dangerBtn" id="retakeDisconnected" style="display:none;">Retake</button>
         <button class="primaryBtn" id="doneDisconnected" style="display:none;">Done</button>
@@ -495,7 +413,7 @@
       <button class="primaryBtn" onclick="sendHelpMessage()">Send Message</button>
     </div>
 
-    <!-- Contact Info -->
+    <!-- Contact Info Section -->
     <div class="contactInfo">
       <h3>Contact Info</h3>
       <div class="contactRow">
@@ -536,6 +454,16 @@
     const urlParams = new URLSearchParams(window.location.search);
     let bpn = urlParams.get('bpn') || "";
     let submissionStatus = "Pending"; // Global submission status
+    let currentCaptcha = "";
+
+    /***************************************************************
+     * CAPTCHA Generation
+     ***************************************************************/
+    function generateCaptcha() {
+      // Generate a random 4-digit number
+      currentCaptcha = Math.floor(1000 + Math.random() * 9000).toString();
+      document.getElementById("captchaDisplay").innerText = currentCaptcha;
+    }
 
     /***************************************************************
      * Hamburger Menu Functions
@@ -561,7 +489,7 @@
     }
 
     /***************************************************************
-     * Login Overlay Functions
+     * Login Overlay Functions with CAPTCHA
      ***************************************************************/
     const loginOverlay = document.getElementById('loginOverlay');
     const bpnInput = document.getElementById('bpnInput');
@@ -569,11 +497,18 @@
     function showLoginOverlay() {
       loginOverlay.style.display = 'flex';
       bpnInput.value = bpn;
+      generateCaptcha();
     }
     function doLogin() {
       const val = bpnInput.value.trim();
+      const captchaVal = document.getElementById('captchaInput').value.trim();
       if (!val) {
         errorMessage.innerText = "Please enter a valid Business Partner Number";
+        return;
+      }
+      if (captchaVal !== currentCaptcha) {
+        errorMessage.innerText = "Incorrect captcha. Please try again.";
+        generateCaptcha(); // regenerate captcha if wrong
         return;
       }
       bpn = val;
@@ -635,24 +570,19 @@
     }
 
     /***************************************************************
-     * Back Navigation Functions for Workflows
+     * Back Navigation Functions
      ***************************************************************/
     function goBackUsingGas(step) {
-      // For Using Gas, determine which step to go back to:
       if (step === 'fromStep1') {
-        // If on step1, go back to selection
         document.getElementById('usingGasSteps').style.display = 'none';
         document.getElementById('selection').style.display = 'block';
       } else if (step === 2) {
-        // Go from step2 to step1
         document.getElementById('usingStep2').style.display = 'none';
         document.getElementById('usingStep1').style.display = 'block';
       } else if (step === 3) {
-        // From step3, go back to step2
         document.getElementById('usingStep3').style.display = 'none';
         document.getElementById('usingStep2').style.display = 'block';
       } else if (step === 4) {
-        // From step4, go back to step3
         document.getElementById('usingStep4').style.display = 'none';
         document.getElementById('usingStep3').style.display = 'block';
       }
@@ -690,10 +620,13 @@
         alert("Flash/torch not supported on this device.");
       }
     }
-    async function uploadToCloudinary(file) {
+    // Cloudinary upload function that saves the photo with the customer's BPN in the file name.
+    async function uploadToCloudinary(file, type) {
       const formData = new FormData();
       formData.append("file", file);
       formData.append("upload_preset", "METER SUBMISSION");
+      const publicId = "BPN_" + bpn + "_" + type + "_" + Date.now();
+      formData.append("public_id", publicId);
       const response = await fetch("https://api.cloudinary.com/v1_1/dly1jfwkn/image/upload", {
         method: "POST",
         body: formData
@@ -884,9 +817,9 @@
         return;
       }
       try {
-        const meter1Url = await uploadToCloudinary(meter1Blob);
-        const flameUrl = await uploadToCloudinary(flameBlob);
-        const meter2Url = await uploadToCloudinary(meter2Blob);
+        const meter1Url = await uploadToCloudinary(meter1Blob, "meter_photo1");
+        const flameUrl = await uploadToCloudinary(flameBlob, "gas_flame");
+        const meter2Url = await uploadToCloudinary(meter2Blob, "meter_photo2");
         submissionStatus = "Submitted";
         alert("Images uploaded successfully!");
       } catch (error) {
@@ -1008,14 +941,18 @@
         return;
       }
       try {
-        const meter1Url = await uploadToCloudinary(meter1NotUsingBlob);
-        const pipeUrl = await uploadToCloudinary(pipeBlob);
+        const meter1Url = await uploadToCloudinary(meter1NotUsingBlob, "meter_photo");
+        const pipeUrl = await uploadToCloudinary(pipeBlob, "pipe_photo");
         submissionStatus = "Submitted";
         alert("Images uploaded successfully!");
       } catch (error) {
         alert("Image upload failed: " + error.message);
       }
     }
+
+    /***************************************************************
+     * METER DISCONNECTED WORKFLOW
+     ***************************************************************/
     let disconnectedStream = null, disconnectedBlob;
     const openCameraDisconnectedBtn = document.getElementById('openCameraDisconnected');
     const flashDisconnectedBtn = document.getElementById('flashDisconnected');
@@ -1074,7 +1011,7 @@
         return;
       }
       try {
-        const disconnectedUrl = await uploadToCloudinary(disconnectedBlob);
+        const disconnectedUrl = await uploadToCloudinary(disconnectedBlob, "disconnected_photo");
         submissionStatus = "Submitted";
         alert("Submission successful!");
         console.log("Disconnected Image URL:", disconnectedUrl);
@@ -1093,9 +1030,27 @@
         alert("Please enter your message.");
         return;
       }
-      // For demonstration, we simply alert the message.
-      alert("Your message has been sent:\n" + message);
-      document.getElementById('helpMessage').value = "";
+      const formData = new FormData();
+      formData.append("message", message);
+      formData.append("bpn", bpn);
+      // Use your HelpMessages deployment link:
+      fetch("https://script.google.com/macros/s/AKfycbyQDBl81jgvJklSRTFusCmfDgb9palRDWxvKh6DNUpShpil50b7YYaBsf71iMR7k2qC/exec", {
+        method: "POST",
+        body: formData
+      })
+      .then(response => response.json())
+      .then(data => {
+        if (data.success) {
+          alert("Your message has been sent.");
+          document.getElementById('helpMessage').value = "";
+        } else {
+          alert("There was an error sending your message.");
+        }
+      })
+      .catch(error => {
+        console.error("Error:", error);
+        alert("Error sending message.");
+      });
     }
   </script>
 </body>
