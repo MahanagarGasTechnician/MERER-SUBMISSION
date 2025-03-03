@@ -7,7 +7,7 @@
   <!-- Font Awesome for icons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
   <style>
-    /* Reset and Basic Styles */
+    /* Reset and basic styles */
     * {
       box-sizing: border-box;
       margin: 0;
@@ -85,8 +85,10 @@
     .loginOverlay {
       display: none;
       position: fixed;
-      top: 0; left: 0;
-      width: 100%; height: 100%;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
       background: rgba(0,0,0,0.5);
       z-index: 9999;
       justify-content: center;
@@ -177,6 +179,11 @@
       display: none;
       margin-top: 10px;
     }
+    /* Make video full-width within its container */
+    .cameraSection video {
+      width: 100%;
+      height: auto;
+    }
     video, img {
       max-width: 320px;
       margin: 10px;
@@ -201,7 +208,7 @@
       border-radius: 4px;
       border: 1px solid #ccc;
     }
-    /* About Submission Process Section */
+    /* About Submission Process */
     .aboutSection {
       margin: 20px 0;
       padding: 15px;
@@ -216,7 +223,36 @@
       margin-bottom: 8px;
       color: #007b5e;
     }
-    /* Contact Info / Need Help Section */
+    /* Help / Issue Facing Section */
+    .helpForm {
+      margin-top: 20px;
+      padding: 15px;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      background-color: #fff;
+    }
+    .helpForm h3 {
+      color: #007b5e;
+      margin-bottom: 10px;
+      font-size: 1rem;
+    }
+    .helpForm textarea {
+      width: 100%;
+      height: 60px;
+      margin-bottom: 10px;
+      padding: 8px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+    .helpForm button {
+      background-color: #007b5e;
+      color: #fff;
+      border: none;
+      border-radius: 4px;
+      padding: 8px 16px;
+      cursor: pointer;
+    }
+    /* Contact Info */
     .contactInfo {
       margin-top: 20px;
       text-align: left;
@@ -246,46 +282,17 @@
       color: #333;
       font-size: 0.9rem;
     }
-    /* Help / Message Form */
-    .helpForm {
-      margin-top: 20px;
-      padding: 15px;
-      border: 1px solid #ddd;
-      border-radius: 5px;
-      background-color: #fff;
-    }
-    .helpForm h3 {
-      color: #007b5e;
-      margin-bottom: 10px;
-      font-size: 1rem;
-    }
-    .helpForm textarea {
-      width: 100%;
-      height: 60px;
-      margin-bottom: 10px;
-      padding: 8px;
-      border: 1px solid #ccc;
-      border-radius: 4px;
-    }
-    .helpForm button {
-      background-color: #007b5e;
-      color: #fff;
-      border: none;
-      border-radius: 4px;
-      padding: 8px 16px;
-      cursor: pointer;
-    }
   </style>
 </head>
 <body>
   <!-- Header -->
   <header>
     <img id="logo" src="https://res.cloudinary.com/dly1jfwkn/image/upload/rou3vxedzvrpa0xh42rz.jpg" alt="Mahanagar Gas Logo" />
-    <h1 class="headerTitle">MGL Network</h1>
-    <!-- Hamburger Menu -->
+    <h1 class="headerTitle">Welcome to Mahanagar Gas Gas Usage Status Submission Portal</h1>
+    <!-- Hamburger Menu (3 lines) -->
     <i class="fa fa-bars menuDots" onclick="toggleMenu()"></i>
     <div class="menuDropdown" id="menuDropdown">
-      <a href="#" onclick="showCustomerDetails()">Customer Details</a>
+      <a href="#" onclick="showCustomerDetails()">Customer Details<br><small>BPN, Name, Address, Meter No, Mobile</small></a>
       <a href="#" onclick="showSubmissionStatus()">Submission Status</a>
       <a href="#" onclick="doLogout()">Logout</a>
     </div>
@@ -307,7 +314,6 @@
     <p style="color:#007b5e; font-weight:600; margin-bottom:10px;">
       Welcome to Mahanagar Gas’ Meter Submission Portal
     </p>
-
     <!-- Customer Details -->
     <h3 id="customerDetails">Fetching customer details...</h3>
 
@@ -327,21 +333,18 @@
     </div>
 
     <!-- About Submission Process -->
-    <div class="aboutSection" id="aboutProcess">
+    <div class="aboutSection">
       <h3>About Our Submission Process</h3>
       <p>
-        Our meter submission process is designed to ensure accurate billing and service quality. 
-        For customers using gas, you will capture two meter readings (before and after a 30-second wait) and a flame photo to confirm usage. 
-        For customers not using gas, simply capture a clear photo of your meter and your gas pipe. 
-        If your meter is disconnected, please provide a brief description along with a photo of the meter location.
+        Customers using gas will capture two meter readings—one before and one after a 30-second interval—and a gas flame photo to confirm usage. Those not using gas need to capture a meter photo and a photo of the gas pipe. For disconnected meters, please provide a brief description and a photo of the meter's location.
       </p>
     </div>
 
     <!-- Using Gas Workflow -->
     <div id="usingGasSteps" class="stepSection">
-      <!-- Step 1: First Meter Photo -->
+      <!-- Step 1: Meter's First Photo -->
       <div id="usingStep1" class="stepSection" style="display:block;">
-        <h2><i class="fa fa-tachometer-alt"></i> Step 1: First Meter Photo</h2>
+        <h2><i class="fa fa-tachometer-alt"></i> Meter's First Photo</h2>
         <p>Capture a clear photo of your meter display.</p>
         <button class="primaryBtn" id="openCameraMeter1">
           <i class="fa fa-camera"></i> Open Camera
@@ -354,15 +357,16 @@
           <button class="primaryBtn" id="captureBtnMeter1">Capture</button>
           <button class="dangerBtn" id="retakeMeter1" style="display:none;">Retake</button>
           <button class="primaryBtn" id="doneMeter1" style="display:none;">Done</button>
+          <button class="primaryBtn" onclick="goBackUsingGas('fromStep1')">Back</button>
         </div>
-        <img id="meter1Preview" style="display:none;" alt="Meter 1 Preview">
+        <img id="meter1Preview" style="display:none;" alt="Meter's First Photo Preview">
         <br>
         <button class="primaryBtn" onclick="nextStepUsingGas(1)">Next</button>
       </div>
 
       <!-- Step 2: Gas Flame Photo -->
       <div id="usingStep2" class="stepSection">
-        <h2><i class="fa fa-fire"></i> Step 2: Gas Flame Photo</h2>
+        <h2><i class="fa fa-fire"></i> Gas Flame Photo</h2>
         <p>Capture a clear photo of the gas flame to confirm usage.</p>
         <button class="primaryBtn" id="openCameraFlame">
           <i class="fa fa-camera"></i> Open Camera
@@ -375,23 +379,25 @@
           <button class="primaryBtn" id="captureBtnFlame">Capture</button>
           <button class="dangerBtn" id="retakeFlame" style="display:none;">Retake</button>
           <button class="primaryBtn" id="doneFlame" style="display:none;">Done</button>
+          <button class="primaryBtn" onclick="goBackUsingGas(2)">Back</button>
         </div>
-        <img id="flamePreview" style="display:none;" alt="Flame Preview">
+        <img id="flamePreview" style="display:none;" alt="Flame Photo Preview">
         <br>
         <button class="primaryBtn" onclick="nextStepUsingGas(2)">Next</button>
       </div>
 
       <!-- Step 3: 30-second Timer -->
       <div id="usingStep3" class="stepSection">
-        <h2><i class="fa fa-clock"></i> Step 3: Wait 30 Seconds</h2>
-        <p>Please wait 30 seconds to capture the final reading.</p>
+        <h2><i class="fa fa-clock"></i> Wait 30 Seconds</h2>
+        <p>Please wait 30 seconds before taking the second meter photo.</p>
         <div id="timer">30</div>
+        <button class="primaryBtn" onclick="goBackUsingGas(3)">Back</button>
       </div>
 
-      <!-- Step 4: Second Meter Photo -->
+      <!-- Step 4: Meter's Second Photo -->
       <div id="usingStep4" class="stepSection">
-        <h2><i class="fa fa-tachometer-alt"></i> Step 4: Second Meter Photo</h2>
-        <p>Capture the meter display again after 30 seconds.</p>
+        <h2><i class="fa fa-tachometer-alt"></i> Meter's Second Photo</h2>
+        <p>Capture the meter display again after the wait.</p>
         <button class="primaryBtn" id="openCameraMeter2">
           <i class="fa fa-camera"></i> Open Camera
         </button>
@@ -403,8 +409,9 @@
           <button class="primaryBtn" id="captureBtnMeter2">Capture</button>
           <button class="dangerBtn" id="retakeMeter2" style="display:none;">Retake</button>
           <button class="primaryBtn" id="doneMeter2" style="display:none;">Done</button>
+          <button class="primaryBtn" onclick="goBackUsingGas(4)">Back</button>
         </div>
-        <img id="meter2Preview" style="display:none;" alt="Meter 2 Preview">
+        <img id="meter2Preview" style="display:none;" alt="Meter's Second Photo Preview">
         <br>
         <button class="primaryBtn" onclick="submitImagesUsingGas()">Submit</button>
       </div>
@@ -414,7 +421,7 @@
     <div id="notUsingGasSteps" class="stepSection">
       <!-- Step 1: Meter Photo -->
       <div id="notUsingStep1" class="stepSection" style="display:block;">
-        <h2><i class="fa fa-tachometer-alt"></i> Step 1: Meter Photo</h2>
+        <h2><i class="fa fa-tachometer-alt"></i> Meter Photo</h2>
         <p>Capture a clear photo of your meter display.</p>
         <button class="primaryBtn" id="openCameraMeter1NotUsing">
           <i class="fa fa-camera"></i> Open Camera
@@ -427,6 +434,7 @@
           <button class="primaryBtn" id="captureBtnMeter1NotUsing">Capture</button>
           <button class="dangerBtn" id="retakeMeter1NotUsing" style="display:none;">Retake</button>
           <button class="primaryBtn" id="doneMeter1NotUsing" style="display:none;">Done</button>
+          <button class="primaryBtn" onclick="goBackNotUsingGas(1)">Back</button>
         </div>
         <img id="meter1NotUsingPreview" style="display:none;" alt="Meter Photo Preview">
         <br>
@@ -434,8 +442,8 @@
       </div>
       <!-- Step 2: Disconnected Pipe Photo -->
       <div id="notUsingStep2" class="stepSection">
-        <h2><i class="fa fa-ban"></i> Step 2: Disconnected Pipe Photo</h2>
-        <p>Capture a photo of the disconnected or capped gas pipe.</p>
+        <h2><i class="fa fa-ban"></i> Disconnected Pipe Photo</h2>
+        <p>Capture a clear photo of the disconnected or capped gas pipe.</p>
         <button class="primaryBtn" id="openCameraPipe">
           <i class="fa fa-camera"></i> Open Camera
         </button>
@@ -447,6 +455,7 @@
           <button class="primaryBtn" id="captureBtnPipe">Capture</button>
           <button class="dangerBtn" id="retakePipe" style="display:none;">Retake</button>
           <button class="primaryBtn" id="donePipe" style="display:none;">Done</button>
+          <button class="primaryBtn" onclick="goBackNotUsingGas(2)">Back</button>
         </div>
         <img id="pipePreview" style="display:none;" alt="Pipe Photo Preview">
         <br>
@@ -472,18 +481,11 @@
         <button class="primaryBtn" id="captureBtnDisconnected">Capture</button>
         <button class="dangerBtn" id="retakeDisconnected" style="display:none;">Retake</button>
         <button class="primaryBtn" id="doneDisconnected" style="display:none;">Done</button>
+        <button class="primaryBtn" onclick="goBackDisconnected()">Back</button>
       </div>
       <img id="disconnectedPreview" style="display:none;" alt="Disconnected Photo Preview">
       <br>
       <button class="primaryBtn" onclick="submitDisconnected()">Submit</button>
-    </div>
-
-    <!-- About Submission Process -->
-    <div class="aboutSection">
-      <h3>About Our Submission Process</h3>
-      <p>
-        Our process ensures accurate and timely meter submissions. Customers using gas are required to capture a meter reading, a gas flame photo, wait for 30 seconds, and then capture a second meter reading. For those not using gas, a single meter photo along with an image of the gas pipe is sufficient. If your meter is disconnected, please provide a brief description along with a photo of the meter location.
-      </p>
     </div>
 
     <!-- Help / Issue Facing Section -->
@@ -554,7 +556,6 @@
       alert("Submission Status: " + submissionStatus);
     }
     function doLogout() {
-      // Clear bpn and reload page to show login overlay
       bpn = "";
       window.location.href = window.location.pathname;
     }
@@ -589,12 +590,11 @@
         return;
       }
       try {
-        // Using the provided deployment id:
         const response = await fetch("https://script.google.com/macros/s/AKfycbxWVd0mecdsCf_XH8f8Qx3d4Hf_3HBIc9WPDjKNPTi1XpLCAv5DLuGz70sKDWRmz7CI5w/exec?bpn=" + bpn);
         const data = await response.json();
         if (data.success) {
           document.getElementById('customerDetails').innerText =
-            `Name: ${data.name}, Address: ${data.address}, Meter No: ${data.meter_no}, Mobile: ${data.mobile}`;
+            `BPN: ${bpn} | Name: ${data.name}, Address: ${data.address}, Meter No: ${data.meter_no}, Mobile: ${data.mobile}`;
         } else {
           document.getElementById('customerDetails').innerText = "Customer not found";
         }
@@ -632,6 +632,43 @@
       } else if (option === 'disconnected') {
         document.getElementById('disconnectedOption').style.display = 'block';
       }
+    }
+
+    /***************************************************************
+     * Back Navigation Functions for Workflows
+     ***************************************************************/
+    function goBackUsingGas(step) {
+      // For Using Gas, determine which step to go back to:
+      if (step === 'fromStep1') {
+        // If on step1, go back to selection
+        document.getElementById('usingGasSteps').style.display = 'none';
+        document.getElementById('selection').style.display = 'block';
+      } else if (step === 2) {
+        // Go from step2 to step1
+        document.getElementById('usingStep2').style.display = 'none';
+        document.getElementById('usingStep1').style.display = 'block';
+      } else if (step === 3) {
+        // From step3, go back to step2
+        document.getElementById('usingStep3').style.display = 'none';
+        document.getElementById('usingStep2').style.display = 'block';
+      } else if (step === 4) {
+        // From step4, go back to step3
+        document.getElementById('usingStep4').style.display = 'none';
+        document.getElementById('usingStep3').style.display = 'block';
+      }
+    }
+    function goBackNotUsingGas(step) {
+      if (step === 1) {
+        document.getElementById('notUsingGasSteps').style.display = 'none';
+        document.getElementById('selection').style.display = 'block';
+      } else if (step === 2) {
+        document.getElementById('notUsingStep2').style.display = 'none';
+        document.getElementById('notUsingStep1').style.display = 'block';
+      }
+    }
+    function goBackDisconnected() {
+      document.getElementById('disconnectedOption').style.display = 'none';
+      document.getElementById('selection').style.display = 'block';
     }
 
     /***************************************************************
@@ -1046,7 +1083,7 @@
         alert("Image upload failed: " + error.message);
       }
     }
-    
+
     /***************************************************************
      * Help / Issue Facing Functionality
      ***************************************************************/
@@ -1056,12 +1093,10 @@
         alert("Please enter your message.");
         return;
       }
-      // For now, we simply alert the message.
-      // In a real-world scenario, you could send this via email, a webhook, or another Apps Script function.
+      // For demonstration, we simply alert the message.
       alert("Your message has been sent:\n" + message);
       document.getElementById('helpMessage').value = "";
     }
   </script>
 </body>
 </html>
-
