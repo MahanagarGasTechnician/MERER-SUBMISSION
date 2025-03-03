@@ -1,127 +1,501 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Meter Submission Process</title>
-    <style>
-        body { font-family: Arial, sans-serif; text-align: center; }
-        #timer { font-size: 24px; margin-top: 10px; }
-        #preview img { width: 200px; margin: 10px; }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Mahanagar Gas - Meter Submission</title>
+  <style>
+    body { font-family: Arial, sans-serif; text-align: center; margin: 0; padding: 0; }
+    header {
+      background-color: #f2f2f2;
+      padding: 10px;
+    }
+    #logo {
+      width: 150px;
+      margin: 10px;
+    }
+    h1, h2, h3 {
+      margin: 10px 0;
+    }
+    #selection, #usingGasSteps, #notUsingGasSteps, #disconnectedOption {
+      margin-top: 20px;
+    }
+    video, img {
+      max-width: 300px;
+      margin: 10px;
+    }
+    .cameraSection {
+      display: none;
+      margin-bottom: 10px;
+    }
+    .stepSection {
+      margin-bottom: 20px;
+    }
+    #timer {
+      font-size: 24px;
+      margin-top: 10px;
+    }
+    textarea {
+      width: 80%;
+      height: 80px;
+      margin: 10px 0;
+    }
+  </style>
 </head>
 <body>
-    <h1>Meter Image Submission</h1>
-    <h3 id="customerDetails">Fetching customer details...</h3>
+  <!-- Header with Logo -->
+  <header>
+    <img 
+      id="logo" 
+      src="https://i.ibb.co/BKfPqHv/Mahanagar-Gas-Logo.jpg" 
+      alt="Mahanagar Gas Logo" 
+    />
+    <h1>Mahanagar Gas - Meter Submission</h1>
+  </header>
+
+  <!-- Customer Details (fetched via Apps Script using BPN) -->
+  <h3 id="customerDetails">Fetching customer details...</h3>
+
+  <!-- Option Selection -->
+  <div id="selection" class="stepSection">
+    <h2>Select Your Option</h2>
+    <button onclick="chooseOption('using')">I am using gas</button>
+    <button onclick="chooseOption('notusing')">I am NOT using gas</button>
+    <button onclick="chooseOption('disconnected')">Meter disconnected</button>
+  </div>
+
+  <!-- Option 1: Using Gas (3-step workflow) -->
+  <div id="usingGasSteps" class="stepSection" style="display:none;">
+    <!-- Step 1: Capture First Meter Photo -->
+    <div id="usingStep1" class="stepSection">
+      <h2>Step 1: Capture the first meter photo</h2>
+      <button id="openCameraMeter1">Open Camera</button>
+      <div id="cameraSectionMeter1" class="cameraSection">
+        <video id="videoMeter1" autoplay></video><br>
+        <button id="captureBtnMeter1">Capture Photo</button>
+      </div>
+      <img id="meter1Preview" style="display:none;" alt="Meter 1 Preview">
+      <br>
+      <button onclick="nextStepUsingGas(1)">Next</button>
+    </div>
+    <!-- Step 2: Capture Gas Flame Photo -->
+    <div id="usingStep2" class="stepSection" style="display:none;">
+      <h2>Step 2: Capture the gas flame photo</h2>
+      <button id="openCameraFlame">Open Camera</button>
+      <div id="cameraSectionFlame" class="cameraSection">
+        <video id="videoFlame" autoplay></video><br>
+        <button id="captureBtnFlame">Capture Photo</button>
+      </div>
+      <img id="flamePreview" style="display:none;" alt="Flame Preview">
+      <br>
+      <button onclick="nextStepUsingGas(2)">Next</button>
+    </div>
+    <!-- Step 3: 30-Second Wait -->
+    <div id="usingStep3" class="stepSection" style="display:none;">
+      <h2>Step 3: Wait for 30 seconds</h2>
+      <div id="timer">30</div>
+    </div>
+    <!-- Step 4: Capture Second Meter Photo -->
+    <div id="usingStep4" class="stepSection" style="display:none;">
+      <h2>Step 4: Capture the second meter photo</h2>
+      <button id="openCameraMeter2">Open Camera</button>
+      <div id="cameraSectionMeter2" class="cameraSection">
+        <video id="videoMeter2" autoplay></video><br>
+        <button id="captureBtnMeter2">Capture Photo</button>
+      </div>
+      <img id="meter2Preview" style="display:none;" alt="Meter 2 Preview">
+      <br>
+      <button onclick="submitImagesUsingGas()">Submit</button>
+    </div>
+  </div>
+
+  <!-- Option 2: Not Using Gas (2-step workflow) -->
+  <div id="notUsingGasSteps" class="stepSection" style="display:none;">
+    <!-- Step 1: Capture Meter Photo -->
+    <div id="notUsingStep1" class="stepSection">
+      <h2>Step 1: Capture the meter photo</h2>
+      <button id="openCameraMeter1NotUsing">Open Camera</button>
+      <div id="cameraSectionMeter1NotUsing" class="cameraSection">
+        <video id="videoMeter1NotUsing" autoplay></video><br>
+        <button id="captureBtnMeter1NotUsing">Capture Photo</button>
+      </div>
+      <img id="meter1NotUsingPreview" style="display:none;" alt="Meter Photo Preview">
+      <br>
+      <button onclick="nextStepNotUsingGas(1)">Next</button>
+    </div>
+    <!-- Step 2: Capture Disconnected Pipe Photo -->
+    <div id="notUsingStep2" class="stepSection" style="display:none;">
+      <h2>Step 2: Capture the disconnected pipe photo</h2>
+      <button id="openCameraPipe">Open Camera</button>
+      <div id="cameraSectionPipe" class="cameraSection">
+        <video id="videoPipe" autoplay></video><br>
+        <button id="captureBtnPipe">Capture Photo</button>
+      </div>
+      <img id="pipePreview" style="display:none;" alt="Pipe Photo Preview">
+      <br>
+      <button onclick="submitImagesNotUsingGas()">Submit</button>
+    </div>
+  </div>
+
+  <!-- Option 3: Meter Disconnected (Description + Photo) -->
+  <div id="disconnectedOption" class="stepSection" style="display:none;">
+    <h2>Meter Disconnected</h2>
+    <p>Please describe the issue:</p>
+    <textarea id="disconnectDesc" placeholder="Enter description..."></textarea>
+    <br>
+    <h3>Capture a photo of the meter location</h3>
+    <button id="openCameraDisconnected">Open Camera</button>
+    <div id="cameraSectionDisconnected" class="cameraSection">
+      <video id="videoDisconnected" autoplay></video><br>
+      <button id="captureBtnDisconnected">Capture Photo</button>
+    </div>
+    <img id="disconnectedPreview" style="display:none;" alt="Disconnected Photo Preview">
+    <br>
+    <button onclick="submitDisconnected()">Submit</button>
+  </div>
+
+  <script>
+    /********** 1) FETCH CUSTOMER DETAILS **********/
+    const urlParams = new URLSearchParams(window.location.search);
+    const bpn = urlParams.get('bpn');
+
+    async function fetchCustomerDetails() {
+      if (!bpn) {
+        document.getElementById('customerDetails').innerText = "No Business Partner Number provided";
+        return;
+      }
+      try {
+        const response = await fetch("https://script.google.com/macros/s/AKfycbyV5cwkSml2CxJKq0Anm-VrudhtdNnnvRL7Pa9MN6o34-cQRv2_QH7WRhDFmvf9aj0FOg/exec?bpn=" + bpn);
+        const data = await response.json();
+        if (data.success) {
+          document.getElementById('customerDetails').innerText =
+            `Name: ${data.name}, Address: ${data.address}, Meter No: ${data.meter_no}, Mobile: ${data.mobile}`;
+        } else {
+          document.getElementById('customerDetails').innerText = "Customer not found";
+        }
+      } catch (error) {
+        document.getElementById('customerDetails').innerText = "Error fetching customer details";
+        console.error("Error:", error);
+      }
+    }
+    fetchCustomerDetails();
+
+    /********** 2) OPTION SELECTION **********/
+    const selectionDiv = document.getElementById('selection');
+    const usingGasDiv = document.getElementById('usingGasSteps');
+    const notUsingGasDiv = document.getElementById('notUsingGasSteps');
+    const disconnectedDiv = document.getElementById('disconnectedOption');
+
+    function chooseOption(option) {
+      selectionDiv.style.display = 'none';
+      if (option === 'using') {
+        usingGasDiv.style.display = 'block';
+      } else if (option === 'notusing') {
+        notUsingGasDiv.style.display = 'block';
+      } else if (option === 'disconnected') {
+        disconnectedDiv.style.display = 'block';
+      }
+    }
+
+    /********** 3) USING GAS WORKFLOW **********/
+    let meter1Blob, flameBlob, meter2Blob;
+
+    // Meter 1 Capture (Using Gas)
+    const openCameraMeter1Btn = document.getElementById('openCameraMeter1');
+    const cameraSectionMeter1 = document.getElementById('cameraSectionMeter1');
+    const videoMeter1 = document.getElementById('videoMeter1');
+    const captureBtnMeter1 = document.getElementById('captureBtnMeter1');
+    const meter1Preview = document.getElementById('meter1Preview');
+
+    openCameraMeter1Btn.addEventListener('click', async () => {
+      cameraSectionMeter1.style.display = 'block';
+      try {
+        const stream = await navigator.mediaDevices.getUserMedia({ video: true });
+        videoMeter1.srcObject = stream;
+      } catch (error) {
+        alert("Unable to access camera: " + error.message);
+      }
+    });
+
+    captureBtnMeter1.addEventListener('click', () => {
+      const canvas = document.createElement('canvas');
+      canvas.width = videoMeter1.videoWidth;
+      canvas.height = videoMeter1.videoHeight;
+      canvas.getContext('2d').drawImage(videoMeter1, 0, 0, canvas.width, canvas.height);
+      canvas.toBlob(blob => {
+        meter1Blob = blob;
+        meter1Preview.src = URL.createObjectURL(blob);
+        meter1Preview.style.display = 'block';
+        stopStream(videoMeter1);
+        cameraSectionMeter1.style.display = 'none';
+      }, 'image/jpeg');
+    });
+
+    function nextStepUsingGas(step) {
+      if (step === 1) {
+        document.getElementById('usingStep2').style.display = 'block';
+      } else if (step === 2) {
+        document.getElementById('usingStep3').style.display = 'block';
+        startTimer();
+      }
+    }
+
+    // Flame Capture (Using Gas)
+    const openCameraFlameBtn = document.getElementById('openCameraFlame');
+    const cameraSectionFlame = document.getElementById('cameraSectionFlame');
+    const videoFlame = document.getElementById('videoFlame');
+    const captureBtnFlame = document.getElementById('captureBtnFlame');
+    const flamePreview = document.getElementById('flamePreview');
+
+    openCameraFlameBtn.addEventListener('click', async () => {
+      cameraSectionFlame.style.display = 'block';
+      try {
+        const stream = await navigator.mediaDevices.getUserMedia({ video: true });
+        videoFlame.srcObject = stream;
+      } catch (error) {
+        alert("Unable to access camera: " + error.message);
+      }
+    });
+
+    captureBtnFlame.addEventListener('click', () => {
+      const canvas = document.createElement('canvas');
+      canvas.width = videoFlame.videoWidth;
+      canvas.height = videoFlame.videoHeight;
+      canvas.getContext('2d').drawImage(videoFlame, 0, 0, canvas.width, canvas.height);
+      canvas.toBlob(blob => {
+        flameBlob = blob;
+        flamePreview.src = URL.createObjectURL(blob);
+        flamePreview.style.display = 'block';
+        stopStream(videoFlame);
+        cameraSectionFlame.style.display = 'none';
+      }, 'image/jpeg');
+    });
+
+    // 30-second Timer (Using Gas)
+    function startTimer() {
+      let time = 30;
+      const timerElement = document.getElementById('timer');
+      const interval = setInterval(() => {
+        time--;
+        timerElement.innerText = time;
+        if (time <= 0) {
+          clearInterval(interval);
+          document.getElementById('usingStep3').style.display = 'none';
+          document.getElementById('usingStep4').style.display = 'block';
+        }
+      }, 1000);
+    }
+
+    // Meter 2 Capture (Using Gas)
+    const openCameraMeter2Btn = document.getElementById('openCameraMeter2');
+    const cameraSectionMeter2 = document.getElementById('cameraSectionMeter2');
+    const videoMeter2 = document.getElementById('videoMeter2');
+    const captureBtnMeter2 = document.getElementById('captureBtnMeter2');
+    const meter2Preview = document.getElementById('meter2Preview');
+
+    openCameraMeter2Btn.addEventListener('click', async () => {
+      cameraSectionMeter2.style.display = 'block';
+      try {
+        const stream = await navigator.mediaDevices.getUserMedia({ video: true });
+        videoMeter2.srcObject = stream;
+      } catch (error) {
+        alert("Unable to access camera: " + error.message);
+      }
+    });
+
+    captureBtnMeter2.addEventListener('click', () => {
+      const canvas = document.createElement('canvas');
+      canvas.width = videoMeter2.videoWidth;
+      canvas.height = videoMeter2.videoHeight;
+      canvas.getContext('2d').drawImage(videoMeter2, 0, 0, canvas.width, canvas.height);
+      canvas.toBlob(blob => {
+        meter2Blob = blob;
+        meter2Preview.src = URL.createObjectURL(blob);
+        meter2Preview.style.display = 'block';
+        stopStream(videoMeter2);
+        cameraSectionMeter2.style.display = 'none';
+      }, 'image/jpeg');
+    });
+
+    async function submitImagesUsingGas() {
+      if (!meter1Blob || !flameBlob || !meter2Blob) {
+        alert("Please capture all required images for the 'Using Gas' option.");
+        return;
+      }
+      try {
+        // Upload images to Cloudinary (assuming your Cloudinary preset & cloud name are set up)
+        const meter1Url = await uploadToCloudinary(meter1Blob);
+        const flameUrl = await uploadToCloudinary(flameBlob);
+        const meter2Url = await uploadToCloudinary(meter2Blob);
+        alert("Images uploaded successfully!");
+        console.log("Meter 1 URL:", meter1Url);
+        console.log("Flame URL:", flameUrl);
+        console.log("Meter 2 URL:", meter2Url);
+        // You can now generate a PDF and/or update your Google Sheet as needed.
+      } catch (error) {
+        alert("Image upload failed: " + error.message);
+      }
+    }
+
+    /********** 4) NOT USING GAS WORKFLOW **********/
+    let meter1NotUsingBlob, pipeBlob;
+
+    // Meter Capture for "Not Using Gas"
+    const openCameraMeter1NotUsingBtn = document.getElementById('openCameraMeter1NotUsing');
+    const cameraSectionMeter1NotUsing = document.getElementById('cameraSectionMeter1NotUsing');
+    const videoMeter1NotUsing = document.getElementById('videoMeter1NotUsing');
+    const captureBtnMeter1NotUsing = document.getElementById('captureBtnMeter1NotUsing');
+    const meter1NotUsingPreview = document.getElementById('meter1NotUsingPreview');
+
+    openCameraMeter1NotUsingBtn.addEventListener('click', async () => {
+      cameraSectionMeter1NotUsing.style.display = 'block';
+      try {
+        const stream = await navigator.mediaDevices.getUserMedia({ video: true });
+        videoMeter1NotUsing.srcObject = stream;
+      } catch (error) {
+        alert("Unable to access camera: " + error.message);
+      }
+    });
+
+    captureBtnMeter1NotUsing.addEventListener('click', () => {
+      const canvas = document.createElement('canvas');
+      canvas.width = videoMeter1NotUsing.videoWidth;
+      canvas.height = videoMeter1NotUsing.videoHeight;
+      canvas.getContext('2d').drawImage(videoMeter1NotUsing, 0, 0, canvas.width, canvas.height);
+      canvas.toBlob(blob => {
+        meter1NotUsingBlob = blob;
+        meter1NotUsingPreview.src = URL.createObjectURL(blob);
+        meter1NotUsingPreview.style.display = 'block';
+        stopStream(videoMeter1NotUsing);
+        cameraSectionMeter1NotUsing.style.display = 'none';
+      }, 'image/jpeg');
+    });
+
+    function nextStepNotUsingGas(step) {
+      if (step === 1) {
+        document.getElementById('notUsingStep2').style.display = 'block';
+      }
+    }
+
+    // Disconnected Pipe Capture for "Not Using Gas"
+    const openCameraPipeBtn = document.getElementById('openCameraPipe');
+    const cameraSectionPipe = document.getElementById('cameraSectionPipe');
+    const videoPipe = document.getElementById('videoPipe');
+    const captureBtnPipe = document.getElementById('captureBtnPipe');
+    const pipePreview = document.getElementById('pipePreview');
+
+    openCameraPipeBtn.addEventListener('click', async () => {
+      cameraSectionPipe.style.display = 'block';
+      try {
+        const stream = await navigator.mediaDevices.getUserMedia({ video: true });
+        videoPipe.srcObject = stream;
+      } catch (error) {
+        alert("Unable to access camera: " + error.message);
+      }
+    });
+
+    captureBtnPipe.addEventListener('click', () => {
+      const canvas = document.createElement('canvas');
+      canvas.width = videoPipe.videoWidth;
+      canvas.height = videoPipe.videoHeight;
+      canvas.getContext('2d').drawImage(videoPipe, 0, 0, canvas.width, canvas.height);
+      canvas.toBlob(blob => {
+        pipeBlob = blob;
+        pipePreview.src = URL.createObjectURL(blob);
+        pipePreview.style.display = 'block';
+        stopStream(videoPipe);
+        cameraSectionPipe.style.display = 'none';
+      }, 'image/jpeg');
+    });
+
+    async function submitImagesNotUsingGas() {
+      if (!meter1NotUsingBlob || !pipeBlob) {
+        alert("Please capture all required images for the 'Not Using Gas' option.");
+        return;
+      }
+      try {
+        const meter1Url = await uploadToCloudinary(meter1NotUsingBlob);
+        const pipeUrl = await uploadToCloudinary(pipeBlob);
+        alert("Images uploaded successfully!");
+        console.log("Meter 1 URL:", meter1Url);
+        console.log("Pipe URL:", pipeUrl);
+        // Generate PDF and/or update Google Sheet as needed.
+      } catch (error) {
+        alert("Image upload failed: " + error.message);
+      }
+    }
+
+    /********** 5) METER DISCONNECTED WORKFLOW **********/
+    let disconnectedBlob;
+    // For Meter Disconnected, customer enters description and captures a photo.
+    const openCameraDisconnectedBtn = document.getElementById('openCameraDisconnected');
+    const cameraSectionDisconnected = document.getElementById('cameraSectionDisconnected');
+    const videoDisconnected = document.getElementById('videoDisconnected');
+    const captureBtnDisconnected = document.getElementById('captureBtnDisconnected');
+    const disconnectedPreview = document.getElementById('disconnectedPreview');
     
-    <div id="step">Step 1: Take the first meter picture</div>
-    <input type="file" id="meter1" accept="image/*" capture="camera"><br>
-    <button onclick="nextStep(1)">Next</button>
+    openCameraDisconnectedBtn.addEventListener('click', async () => {
+      cameraSectionDisconnected.style.display = 'block';
+      try {
+        const stream = await navigator.mediaDevices.getUserMedia({ video: true });
+        videoDisconnected.srcObject = stream;
+      } catch (error) {
+        alert("Unable to access camera: " + error.message);
+      }
+    });
+    
+    captureBtnDisconnected.addEventListener('click', () => {
+      const canvas = document.createElement('canvas');
+      canvas.width = videoDisconnected.videoWidth;
+      canvas.height = videoDisconnected.videoHeight;
+      canvas.getContext('2d').drawImage(videoDisconnected, 0, 0, canvas.width, canvas.height);
+      canvas.toBlob(blob => {
+        disconnectedBlob = blob;
+        disconnectedPreview.src = URL.createObjectURL(blob);
+        disconnectedPreview.style.display = 'block';
+        stopStream(videoDisconnected);
+        cameraSectionDisconnected.style.display = 'none';
+      }, 'image/jpeg');
+    });
+    
+    async function submitDisconnected() {
+      const description = document.getElementById('disconnectDesc').value;
+      if (!description || !disconnectedBlob) {
+        alert("Please enter a description and capture an image for the disconnected meter option.");
+        return;
+      }
+      try {
+        const disconnectedUrl = await uploadToCloudinary(disconnectedBlob);
+        alert("Submission successful!");
+        console.log("Disconnected Image URL:", disconnectedUrl);
+        console.log("Description:", description);
+        // Generate PDF including description and image, then update Google Sheet as needed.
+      } catch (error) {
+        alert("Image upload failed: " + error.message);
+      }
+    }
 
-    <div id="step2" style="display:none;">
-        <h2>Step 2: Take a picture of the gas flame</h2>
-        <input type="file" id="flame" accept="image/*" capture="camera"><br>
-        <button onclick="nextStep(2)">Next</button>
-    </div>
+    /********** HELPER FUNCTIONS **********/
+    function stopStream(videoElem) {
+      const tracks = videoElem.srcObject?.getTracks() || [];
+      tracks.forEach(track => track.stop());
+      videoElem.srcObject = null;
+    }
 
-    <div id="step3" style="display:none;">
-        <h2>Step 3: Wait for 30 seconds</h2>
-        <div id="timer">30</div>
-    </div>
-
-    <div id="step4" style="display:none;">
-        <h2>Step 4: Take the second meter picture</h2>
-        <input type="file" id="meter2" accept="image/*" capture="camera"><br>
-        <button onclick="submitImages()">Submit</button>
-    </div>
-
-    <script>
-        const urlParams = new URLSearchParams(window.location.search);
-        const bpn = urlParams.get('bpn');
-
-        async function fetchCustomerDetails() {
-            if (!bpn) {
-                document.getElementById('customerDetails').innerText = "No Business Partner Number provided";
-                return;
-            }
-            try {
-                const response = await fetch("https://script.google.com/macros/s/AKfycbzd5hssi2nwVBEulFrGLOEWC4hsrbKNQ-dgcjSUneoUs4VKmzlsF2KURAhDqPytBGDRiQ/exec?bpn=" + bpn);
-                const data = await response.json();
-                if (data.success) {
-                    document.getElementById('customerDetails').innerText = `Name: ${data.name}, Address: ${data.address}, Meter No: ${data.meter_no}, Mobile: ${data.mobile}`;
-                } else {
-                    document.getElementById('customerDetails').innerText = "Customer not found";
-                }
-            } catch (error) {
-                document.getElementById('customerDetails').innerText = "Error fetching customer details";
-            }
-        }
-
-        function nextStep(step) {
-            if (step === 1) {
-                document.getElementById('step2').style.display = 'block';
-            } else if (step === 2) {
-                document.getElementById('step3').style.display = 'block';
-                startTimer();
-            }
-        }
-        
-        function startTimer() {
-            let time = 30;
-            const timerElement = document.getElementById('timer');
-            const interval = setInterval(() => {
-                time--;
-                timerElement.innerText = time;
-                if (time <= 0) {
-                    clearInterval(interval);
-                    document.getElementById('step3').style.display = 'none';
-                    document.getElementById('step4').style.display = 'block';
-                }
-            }, 1000);
-        }
-
-        async function uploadToCloudinary(file, fieldName) {
-            const formData = new FormData();
-            formData.append("file", file);
-            formData.append("upload_preset", "METER SUBMISSION");
-
-            const response = await fetch("https://api.cloudinary.com/v1_1/dly1jfwkn/image/upload", {
-                method: "POST",
-                body: formData
-            });
-
-            const responseData = await response.json();
-            if (!responseData.secure_url) {
-                throw new Error("Upload failed: " + responseData.error);
-            }
-            return responseData.secure_url;
-        }
-
-        async function submitImages() {
-            const meter1File = document.getElementById('meter1').files[0];
-            const flameFile = document.getElementById('flame').files[0];
-            const meter2File = document.getElementById('meter2').files[0];
-            
-            if (!meter1File || !flameFile || !meter2File) {
-                alert("Please upload all images before submitting.");
-                return;
-            }
-            
-            try {
-                const meter1Url = await uploadToCloudinary(meter1File, 'meter1');
-                const flameUrl = await uploadToCloudinary(flameFile, 'flame');
-                const meter2Url = await uploadToCloudinary(meter2File, 'meter2');
-                
-                alert("Images uploaded successfully!");
-                console.log("Meter 1 URL:", meter1Url);
-                console.log("Flame URL:", flameUrl);
-                console.log("Meter 2 URL:", meter2Url);
-            } catch (error) {
-                alert("Image upload failed: " + error.message);
-            }
-        }
-
-        fetchCustomerDetails();
-    </script>
+    async function uploadToCloudinary(file) {
+      const formData = new FormData();
+      formData.append("file", file);
+      formData.append("upload_preset", "METER SUBMISSION");
+      const response = await fetch("https://api.cloudinary.com/v1_1/dly1jfwkn/image/upload", {
+        method: "POST",
+        body: formData
+      });
+      const responseData = await response.json();
+      if (!responseData.secure_url) {
+        throw new Error("Upload failed: " + responseData.error);
+      }
+      return responseData.secure_url;
+    }
+  </script>
 </body>
 </html>
