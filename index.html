@@ -6,10 +6,13 @@
   <title>MGL Network - Meter Submission</title>
   <!-- Font Awesome for icons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
-
   <style>
-    /* Reset and basic styles */
-    * { box-sizing: border-box; margin: 0; padding: 0; }
+    /* Reset and Basic Styles */
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
     body {
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
       background: linear-gradient(to right, #0096c7, #48cae4);
@@ -17,17 +20,25 @@
       text-align: center;
       min-height: 100vh;
     }
+    /* Header */
     header {
       display: flex;
       align-items: center;
+      justify-content: center;
       padding: 10px;
       background-color: #ffffffcc;
       box-shadow: 0 2px 4px rgba(0,0,0,0.1);
       position: relative;
-      justify-content: center;
     }
-    #logo { width: 120px; margin-right: 10px; }
-    .headerTitle { font-size: 1.4rem; color: #007b5e; }
+    #logo {
+      width: 120px;
+      margin-right: 10px;
+    }
+    .headerTitle {
+      font-size: 1.4rem;
+      color: #007b5e;
+    }
+    /* Hamburger Menu */
     .menuDots {
       position: absolute;
       right: 10px;
@@ -44,7 +55,7 @@
       background: #fff;
       border: 1px solid #ccc;
       border-radius: 4px;
-      width: 180px;
+      width: 200px;
       text-align: left;
       z-index: 999;
     }
@@ -56,7 +67,10 @@
       border-bottom: 1px solid #eee;
       font-size: 0.9rem;
     }
-    .menuDropdown a:hover { background-color: #f2f2f2; }
+    .menuDropdown a:hover {
+      background-color: #f2f2f2;
+    }
+    /* Container */
     .container {
       max-width: 700px;
       margin: 20px auto;
@@ -64,8 +78,8 @@
       border-radius: 8px;
       padding: 20px;
       box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-      min-height: 80vh;
       position: relative;
+      min-height: 80vh;
     }
     /* Login Overlay */
     .loginOverlay {
@@ -85,7 +99,10 @@
       width: 300px;
       text-align: center;
     }
-    .loginBox h2 { margin-bottom: 10px; color: #007b5e; }
+    .loginBox h2 {
+      margin-bottom: 10px;
+      color: #007b5e;
+    }
     .loginBox input {
       width: 80%;
       padding: 8px;
@@ -107,7 +124,11 @@
       color: #007b5e;
       font-weight: 500;
     }
-    #errorMessage { color: #dc3545; margin-bottom: 10px; font-size: 0.9rem; }
+    #errorMessage {
+      color: #dc3545;
+      margin-bottom: 10px;
+      font-size: 0.9rem;
+    }
     button {
       padding: 10px 16px;
       margin: 5px;
@@ -117,10 +138,22 @@
       cursor: pointer;
       transition: background-color 0.3s;
     }
-    button:hover { opacity: 0.9; }
-    .primaryBtn { background-color: #007BFF; color: #fff; }
-    .dangerBtn { background-color: #dc3545; color: #fff; }
-    .flashBtn { background-color: #ffcc00; color: #333; }
+    button:hover {
+      opacity: 0.9;
+    }
+    .primaryBtn {
+      background-color: #007BFF;
+      color: #fff;
+    }
+    .dangerBtn {
+      background-color: #dc3545;
+      color: #fff;
+    }
+    .flashBtn {
+      background-color: #ffcc00;
+      color: #333;
+    }
+    /* Step Sections */
     .stepSection {
       display: none;
       margin: 20px 0;
@@ -130,13 +163,60 @@
       background-color: #fafafa;
       text-align: center;
     }
-    .stepSection h2 { font-size: 1rem; margin-bottom: 10px; color: #007b5e; }
-    .stepSection p { margin: 10px 0; color: #666; font-size: 0.9rem; }
-    .cameraSection { display: none; margin-top: 10px; }
-    video, img { max-width: 320px; margin: 10px; border: 1px solid #ccc; border-radius: 5px; }
-    #timer { font-size: 24px; margin-top: 10px; color: #d9534f; font-weight: bold; }
-    .textareaSection { margin: 10px 0; }
-    textarea { width: 80%; height: 80px; margin: 10px 0; padding: 8px; resize: vertical; border-radius: 4px; border: 1px solid #ccc; }
+    .stepSection h2 {
+      font-size: 1rem;
+      margin-bottom: 10px;
+      color: #007b5e;
+    }
+    .stepSection p {
+      margin: 10px 0;
+      color: #666;
+      font-size: 0.9rem;
+    }
+    .cameraSection {
+      display: none;
+      margin-top: 10px;
+    }
+    video, img {
+      max-width: 320px;
+      margin: 10px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+    #timer {
+      font-size: 24px;
+      margin-top: 10px;
+      color: #d9534f;
+      font-weight: bold;
+    }
+    .textareaSection {
+      margin: 10px 0;
+    }
+    textarea {
+      width: 80%;
+      height: 80px;
+      margin: 10px 0;
+      padding: 8px;
+      resize: vertical;
+      border-radius: 4px;
+      border: 1px solid #ccc;
+    }
+    /* About Submission Process Section */
+    .aboutSection {
+      margin: 20px 0;
+      padding: 15px;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      background-color: #f0f8ff;
+      text-align: left;
+      font-size: 0.9rem;
+      color: #333;
+    }
+    .aboutSection h3 {
+      margin-bottom: 8px;
+      color: #007b5e;
+    }
+    /* Contact Info / Need Help Section */
     .contactInfo {
       margin-top: 20px;
       text-align: left;
@@ -146,21 +226,68 @@
       border-radius: 6px;
       padding: 10px;
     }
-    .contactInfo h3 { color: #007b5e; font-size: 1rem; margin-bottom: 6px; }
-    .contactRow { display: flex; align-items: center; margin-bottom: 6px; }
-    .contactRow i { font-size: 1.2rem; margin-right: 8px; color: #007b5e; }
-    .contactNumber { font-weight: 500; color: #333; font-size: 0.9rem; }
+    .contactInfo h3 {
+      color: #007b5e;
+      font-size: 1rem;
+      margin-bottom: 6px;
+    }
+    .contactRow {
+      display: flex;
+      align-items: center;
+      margin-bottom: 6px;
+    }
+    .contactRow i {
+      font-size: 1.2rem;
+      margin-right: 8px;
+      color: #007b5e;
+    }
+    .contactNumber {
+      font-weight: 500;
+      color: #333;
+      font-size: 0.9rem;
+    }
+    /* Help / Message Form */
+    .helpForm {
+      margin-top: 20px;
+      padding: 15px;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      background-color: #fff;
+    }
+    .helpForm h3 {
+      color: #007b5e;
+      margin-bottom: 10px;
+      font-size: 1rem;
+    }
+    .helpForm textarea {
+      width: 100%;
+      height: 60px;
+      margin-bottom: 10px;
+      padding: 8px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+    .helpForm button {
+      background-color: #007b5e;
+      color: #fff;
+      border: none;
+      border-radius: 4px;
+      padding: 8px 16px;
+      cursor: pointer;
+    }
   </style>
 </head>
 <body>
   <!-- Header -->
   <header>
-    <img id="logo" src="https://i.ibb.co/BKfPqHv/Mahanagar-Gas-Logo.jpg" alt="Mahanagar Gas Logo" />
+    <img id="logo" src="https://res.cloudinary.com/dly1jfwkn/image/upload/rou3vxedzvrpa0xh42rz.jpg" alt="Mahanagar Gas Logo" />
     <h1 class="headerTitle">MGL Network</h1>
-    <i class="fa fa-ellipsis-v menuDots" onclick="toggleMenu()"></i>
+    <!-- Hamburger Menu -->
+    <i class="fa fa-bars menuDots" onclick="toggleMenu()"></i>
     <div class="menuDropdown" id="menuDropdown">
       <a href="#" onclick="showCustomerDetails()">Customer Details</a>
       <a href="#" onclick="showSubmissionStatus()">Submission Status</a>
+      <a href="#" onclick="doLogout()">Logout</a>
     </div>
   </header>
 
@@ -176,16 +303,18 @@
 
   <!-- Main Container -->
   <div class="container">
+    <!-- Page Intro -->
     <p style="color:#007b5e; font-weight:600; margin-bottom:10px;">
       Welcome to Mahanagar Gas’ Meter Submission Portal
     </p>
+
     <!-- Customer Details -->
     <h3 id="customerDetails">Fetching customer details...</h3>
 
     <!-- Option Selection -->
     <div id="selection" class="stepSection" style="display:none;">
       <h2><i class="fa fa-fire"></i> Select Your Option</h2>
-      <p>Please choose the relevant option below:</p>
+      <p>Please choose one of the following options to submit your meter status.</p>
       <button class="primaryBtn" onclick="chooseOption('using')">
         <i class="fa fa-fire"></i> Using Gas
       </button>
@@ -197,9 +326,20 @@
       </button>
     </div>
 
-    <!-- Using Gas Steps -->
+    <!-- About Submission Process -->
+    <div class="aboutSection" id="aboutProcess">
+      <h3>About Our Submission Process</h3>
+      <p>
+        Our meter submission process is designed to ensure accurate billing and service quality. 
+        For customers using gas, you will capture two meter readings (before and after a 30-second wait) and a flame photo to confirm usage. 
+        For customers not using gas, simply capture a clear photo of your meter and your gas pipe. 
+        If your meter is disconnected, please provide a brief description along with a photo of the meter location.
+      </p>
+    </div>
+
+    <!-- Using Gas Workflow -->
     <div id="usingGasSteps" class="stepSection">
-      <!-- Step 1: Capture First Meter Photo -->
+      <!-- Step 1: First Meter Photo -->
       <div id="usingStep1" class="stepSection" style="display:block;">
         <h2><i class="fa fa-tachometer-alt"></i> Step 1: First Meter Photo</h2>
         <p>Capture a clear photo of your meter display.</p>
@@ -220,10 +360,10 @@
         <button class="primaryBtn" onclick="nextStepUsingGas(1)">Next</button>
       </div>
 
-      <!-- Step 2: Capture Gas Flame Photo -->
+      <!-- Step 2: Gas Flame Photo -->
       <div id="usingStep2" class="stepSection">
         <h2><i class="fa fa-fire"></i> Step 2: Gas Flame Photo</h2>
-        <p>Capture a clear photo of the gas flame (to ensure usage).</p>
+        <p>Capture a clear photo of the gas flame to confirm usage.</p>
         <button class="primaryBtn" id="openCameraFlame">
           <i class="fa fa-camera"></i> Open Camera
         </button>
@@ -243,12 +383,12 @@
 
       <!-- Step 3: 30-second Timer -->
       <div id="usingStep3" class="stepSection">
-        <h2><i class="fa fa-clock"></i> Step 3: Wait 30 seconds</h2>
-        <p>Kindly wait 30 seconds to record gas flow difference.</p>
+        <h2><i class="fa fa-clock"></i> Step 3: Wait 30 Seconds</h2>
+        <p>Please wait 30 seconds to capture the final reading.</p>
         <div id="timer">30</div>
       </div>
 
-      <!-- Step 4: Capture Second Meter Photo -->
+      <!-- Step 4: Second Meter Photo -->
       <div id="usingStep4" class="stepSection">
         <h2><i class="fa fa-tachometer-alt"></i> Step 4: Second Meter Photo</h2>
         <p>Capture the meter display again after 30 seconds.</p>
@@ -270,12 +410,12 @@
       </div>
     </div>
 
-    <!-- Not Using Gas Steps -->
+    <!-- Not Using Gas Workflow -->
     <div id="notUsingGasSteps" class="stepSection">
-      <!-- Step 1: Capture Meter Photo -->
+      <!-- Step 1: Meter Photo -->
       <div id="notUsingStep1" class="stepSection" style="display:block;">
         <h2><i class="fa fa-tachometer-alt"></i> Step 1: Meter Photo</h2>
-        <p>Capture your meter display, even if not in active use.</p>
+        <p>Capture a clear photo of your meter display.</p>
         <button class="primaryBtn" id="openCameraMeter1NotUsing">
           <i class="fa fa-camera"></i> Open Camera
         </button>
@@ -292,7 +432,7 @@
         <br>
         <button class="primaryBtn" onclick="nextStepNotUsingGas(1)">Next</button>
       </div>
-      <!-- Step 2: Capture Disconnected Pipe Photo -->
+      <!-- Step 2: Disconnected Pipe Photo -->
       <div id="notUsingStep2" class="stepSection">
         <h2><i class="fa fa-ban"></i> Step 2: Disconnected Pipe Photo</h2>
         <p>Capture a photo of the disconnected or capped gas pipe.</p>
@@ -314,7 +454,7 @@
       </div>
     </div>
 
-    <!-- Meter Disconnected Option -->
+    <!-- Meter Disconnected Workflow -->
     <div id="disconnectedOption" class="stepSection">
       <h2><i class="fa fa-times-circle"></i> Meter Disconnected</h2>
       <p>If your meter has been disconnected, please describe the issue and capture a photo of the meter’s location.</p>
@@ -336,6 +476,21 @@
       <img id="disconnectedPreview" style="display:none;" alt="Disconnected Photo Preview">
       <br>
       <button class="primaryBtn" onclick="submitDisconnected()">Submit</button>
+    </div>
+
+    <!-- About Submission Process -->
+    <div class="aboutSection">
+      <h3>About Our Submission Process</h3>
+      <p>
+        Our process ensures accurate and timely meter submissions. Customers using gas are required to capture a meter reading, a gas flame photo, wait for 30 seconds, and then capture a second meter reading. For those not using gas, a single meter photo along with an image of the gas pipe is sufficient. If your meter is disconnected, please provide a brief description along with a photo of the meter location.
+      </p>
+    </div>
+
+    <!-- Help / Issue Facing Section -->
+    <div class="helpForm">
+      <h3>Need Help? Send Us a Message</h3>
+      <textarea id="helpMessage" placeholder="Describe your issue..."></textarea>
+      <button class="primaryBtn" onclick="sendHelpMessage()">Send Message</button>
     </div>
 
     <!-- Contact Info -->
@@ -381,7 +536,7 @@
     let submissionStatus = "Pending"; // Global submission status
 
     /***************************************************************
-     * Three-dot Menu Functions
+     * Hamburger Menu Functions
      ***************************************************************/
     function toggleMenu() {
       const menu = document.getElementById('menuDropdown');
@@ -393,10 +548,15 @@
       }
     }
     function showCustomerDetails() {
-      alert("Customer Details:\n" + document.getElementById('customerDetails').innerText);
+      alert("Customer Details:\n" + document.getElementById('customerDetails').innerText + "\nBPN: " + bpn);
     }
     function showSubmissionStatus() {
       alert("Submission Status: " + submissionStatus);
+    }
+    function doLogout() {
+      // Clear bpn and reload page to show login overlay
+      bpn = "";
+      window.location.href = window.location.pathname;
     }
 
     /***************************************************************
@@ -405,10 +565,9 @@
     const loginOverlay = document.getElementById('loginOverlay');
     const bpnInput = document.getElementById('bpnInput');
     const errorMessage = document.getElementById('errorMessage');
-
     function showLoginOverlay() {
       loginOverlay.style.display = 'flex';
-      bpnInput.value = bpn; // Auto-fill from URL if present
+      bpnInput.value = bpn;
     }
     function doLogin() {
       const val = bpnInput.value.trim();
@@ -430,7 +589,7 @@
         return;
       }
       try {
-        // Use the new deployment id in the URL:
+        // Using the provided deployment id:
         const response = await fetch("https://script.google.com/macros/s/AKfycbxWVd0mecdsCf_XH8f8Qx3d4Hf_3HBIc9WPDjKNPTi1XpLCAv5DLuGz70sKDWRmz7CI5w/exec?bpn=" + bpn);
         const data = await response.json();
         if (data.success) {
@@ -697,6 +856,7 @@
         alert("Image upload failed: " + error.message);
       }
     }
+
     /***************************************************************
      * NOT USING GAS WORKFLOW
      ***************************************************************/
@@ -886,6 +1046,22 @@
         alert("Image upload failed: " + error.message);
       }
     }
+    
+    /***************************************************************
+     * Help / Issue Facing Functionality
+     ***************************************************************/
+    function sendHelpMessage() {
+      const message = document.getElementById('helpMessage').value.trim();
+      if (!message) {
+        alert("Please enter your message.");
+        return;
+      }
+      // For now, we simply alert the message.
+      // In a real-world scenario, you could send this via email, a webhook, or another Apps Script function.
+      alert("Your message has been sent:\n" + message);
+      document.getElementById('helpMessage').value = "";
+    }
   </script>
 </body>
 </html>
+
