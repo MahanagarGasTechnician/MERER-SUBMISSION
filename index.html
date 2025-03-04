@@ -26,10 +26,10 @@
       box-shadow: 0 2px 4px rgba(0,0,0,0.1);
       position: relative;
     }
-    /* Updated logo styling for circular format */
+    /* Logo in circular format */
     #logo { 
       width: 120px; 
-      margin-right: 10px;
+      margin-right: 10px; 
       border-radius: 50%; 
       object-fit: cover;
     }
@@ -37,7 +37,7 @@
       font-size: 1.4rem; 
       color: #007b5e; 
     }
-    /* Hamburger Menu (three-line icon) */
+    /* Hamburger Menu */
     .menuDots {
       position: absolute;
       right: 10px;
@@ -145,7 +145,6 @@
     .stepSection h2 { font-size: 1rem; margin-bottom: 10px; color: #007b5e; }
     .stepSection p { margin: 10px 0; color: #666; font-size: 0.9rem; }
     .cameraSection { margin-top: 10px; display: none; }
-    /* Fullscreen video inside container */
     .cameraSection video { width: 100%; height: auto; }
     video, img { max-width: 320px; margin: 10px; border: 1px solid #ccc; border-radius: 5px; }
     #timer { font-size: 24px; margin-top: 10px; color: #d9534f; font-weight: bold; }
@@ -215,7 +214,6 @@
 <body>
   <!-- Header -->
   <header>
-    <!-- Updated logo using new Cloudinary public image ID in circle format -->
     <img id="logo" src="https://res.cloudinary.com/dly1jfwkn/image/upload/mmbo0lj2wuwnfuyjrsoi.jpg" alt="Mahanagar Gas Logo" />
     <h1 class="headerTitle">MGL gas status submission portal</h1>
     <!-- Hamburger Menu -->
@@ -234,7 +232,7 @@
       <h2>MGL Login</h2>
       <div id="errorMessage"></div>
       <input type="text" id="bpnInput" placeholder="Enter Business Partner No">
-      <!-- CAPTCHA Section with dynamic background and font -->
+      <!-- CAPTCHA Section with dynamic background and random font -->
       <div style="margin: 10px 0;">
         <label for="captchaInput">Enter Captcha: <span id="captchaDisplay" style="padding: 4px 8px; color: #fff;"></span></label><br>
         <input type="text" id="captchaInput" placeholder="Enter captcha">
@@ -1064,8 +1062,8 @@
       const formData = new FormData();
       formData.append("message", message);
       formData.append("bpn", bpn);
-      // Use your HelpMessages deployment link:
-      fetch("https://script.google.com/macros/s/AKfycbyQDBl81jgvJklSRTFusCmfDgb9palRDWxvKh6DNUpShpil50b7YYaBsf71iMR7k2qC/exec", {
+      // Updated HelpMessages deployment URL
+      fetch("https://script.google.com/macros/s/AKfycbwMdwXBA27zVGpqzJjMAf3D3ibcfgZx1hnRkY5Etci9mhKJALKutcXGMH1NpaR8c4Yp/exec", {
         method: "POST",
         body: formData
       })
