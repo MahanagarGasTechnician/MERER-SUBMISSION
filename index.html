@@ -26,9 +26,12 @@
       box-shadow: 0 2px 4px rgba(0,0,0,0.1);
       position: relative;
     }
+    /* Updated logo styling for circular format */
     #logo { 
       width: 120px; 
-      margin-right: 10px; 
+      margin-right: 10px;
+      border-radius: 50%; 
+      object-fit: cover;
     }
     .headerTitle { 
       font-size: 1.4rem; 
@@ -212,7 +215,7 @@
 <body>
   <!-- Header -->
   <header>
-    <!-- Updated logo using new Cloudinary public image ID -->
+    <!-- Updated logo using new Cloudinary public image ID in circle format -->
     <img id="logo" src="https://res.cloudinary.com/dly1jfwkn/image/upload/mmbo0lj2wuwnfuyjrsoi.jpg" alt="Mahanagar Gas Logo" />
     <h1 class="headerTitle">MGL gas status submission portal</h1>
     <!-- Hamburger Menu -->
@@ -488,7 +491,7 @@
       currentCaptcha = Math.floor(1000 + Math.random() * 9000).toString();
       const captchaDisplay = document.getElementById("captchaDisplay");
       captchaDisplay.innerText = currentCaptcha;
-      // Set a random background color and random font for the captcha
+      // Set a random background color and random font for the captcha display
       captchaDisplay.style.backgroundColor = getRandomColor();
       captchaDisplay.style.fontFamily = getRandomFont();
     }
