@@ -11,7 +11,6 @@
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body {
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      /* Updated professional blue theme */
       background: linear-gradient(to right, #005ea6, #0070c0);
       color: #333;
       text-align: center;
@@ -94,7 +93,7 @@
     .disclaimer a i {
       margin-right: 5px;
     }
-    /* (Optional) Login Overlay – not forced since customers can use without login */
+    /* Login Overlay */
     .loginOverlay {
       display: none;
       position: fixed;
@@ -232,6 +231,8 @@
     <div class="menuDropdown" id="menuDropdown">
       <a href="#" onclick="showCustomerDetails()"><i class="fa fa-info-circle"></i> Customer Details<br><small>(BPN, Name, Address, Meter No, Mobile)</small></a>
       <a href="#" onclick="showSubmissionStatus()"><i class="fa fa-check-circle"></i> Submission Status</a>
+      <!-- Added Login Button -->
+      <a href="#" onclick="showLoginOverlay()"><i class="fa fa-sign-in-alt"></i> Login</a>
       <a href="#" onclick="doLogout()"><i class="fa fa-sign-out-alt"></i> Logout</a>
     </div>
   </header>
@@ -452,7 +453,7 @@
     const urlParams = new URLSearchParams(window.location.search);
     // Allow usage without login – default to "Guest" if no bpn is provided
     let bpn = urlParams.get('bpn') || "Guest";
-    let submissionStatus = "Pending"; // Global submission status
+    let submissionStatus = "Pending";
     let currentCaptcha = "";
 
     /***************************************************************
@@ -471,11 +472,9 @@
       return fonts[Math.floor(Math.random() * fonts.length)];
     }
     function generateCaptcha() {
-      // Generate a random 4-digit number
       currentCaptcha = Math.floor(1000 + Math.random() * 9000).toString();
       const captchaDisplay = document.getElementById("captchaDisplay");
       captchaDisplay.innerText = currentCaptcha;
-      // Set a random background color and random font for the captcha display
       captchaDisplay.style.backgroundColor = getRandomColor();
       captchaDisplay.style.fontFamily = getRandomFont();
     }
@@ -504,10 +503,10 @@
     }
 
     /***************************************************************
-     * (Optional) Disclaimer Functionality
+     * Disclaimer Functionality
      ***************************************************************/
     function showDisclaimer() {
-      alert("Disclaimer:\n\nThis portal is provided for the routine checking of customer gas usage status and is not affiliated with Mahanagar Gas Limited. If you are unable to log in, no data will be provided by MGL to verify your gas status. This portal is owned and operated by a private company contracted by Mahanagar Gas Limited.");
+      alert("Disclaimer:\n\nThis portal is provided solely for the routine checking of customer gas usage status. It is not affiliated with Mahanagar Gas Limited. If you cannot log in, no data will be provided by MGL to verify your gas status. This portal is owned and operated by a private company contracted by Mahanagar Gas Limited.");
     }
 
     /***************************************************************
@@ -1028,6 +1027,7 @@
       })
       .then(response => response.json())
       .then(data => {
+        console.log("Help message response:", data);
         if (data.success) {
           alert("Your message has been sent.");
           document.getElementById('helpMessage').value = "";
@@ -1036,8 +1036,8 @@
         }
       })
       .catch(error => {
-        console.error("Error:", error);
-        alert("Error sending message.");
+        console.error("Error sending help message:", error);
+        alert("Error sending message: " + error);
       });
     }
   </script>
