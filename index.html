@@ -9,48 +9,83 @@
   <!-- Font Awesome – updated version -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
   <style>
-    /* Basic Reset and Global Styles */
+    /* Global Reset and Base Styles */
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body {
       font-family: 'Roboto', sans-serif;
       background: linear-gradient(to right, #005ea6, #0070c0);
       color: #333;
-      text-align: center;
       min-height: 100vh;
+      position: relative;
+      padding-top: 60px; /* space for fixed header */
     }
-    /* Header */
+    /* Header: fixed at top with three areas */
     header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 60px;
+      background: #ffffffcc;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
       display: flex;
       align-items: center;
-      justify-content: center;
-      padding: 10px;
-      background-color: #ffffffcc;
-      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-      position: relative;
+      justify-content: space-between;
+      padding: 0 10px;
+      z-index: 1000;
+    }
+    /* Back Arrow (left side) */
+    .backArrow {
+      font-size: 1.5rem;
+      color: #007b5e;
+      cursor: pointer;
+      display: none; /* We'll show it conditionally via JS if needed */
+    }
+    /* Center Logo and Title */
+    .headerCenter {
+      display: flex;
+      align-items: center;
+      gap: 10px;
     }
     #logo { 
-      width: 120px; 
-      margin-right: 10px; 
+      width: 50px; 
+      height: 50px;
       border-radius: 50%; 
       object-fit: cover;
     }
     .headerTitle { 
-      font-size: 1.4rem; 
+      font-size: 1.2rem; 
       color: #007b5e; 
+      font-weight: 500;
     }
-    /* Hamburger Menu */
-    .menuDots {
-      position: absolute;
-      right: 10px;
-      top: 12px;
+    /* Right Side: Disclaimer button & Hamburger Menu */
+    .headerRight {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+    .disclaimerBtn {
+      background: #333;
+      color: #fff;
+      padding: 5px 10px;
+      border-radius: 4px;
+      text-decoration: none;
+      font-size: 0.9rem;
       cursor: pointer;
+      border: none;
+    }
+    .disclaimerBtn i {
+      margin-right: 5px;
+    }
+    .menuDots {
       font-size: 1.5rem;
       color: #007b5e;
+      cursor: pointer;
     }
     .menuDropdown {
       display: none;
       position: absolute;
-      top: 40px;
+      top: 50px;
       right: 10px;
       background: #fff;
       border: 1px solid #ccc;
@@ -72,89 +107,35 @@
     .container {
       max-width: 700px;
       margin: 20px auto;
-      background-color: #fff;
+      background: #fff;
       border-radius: 8px;
       padding: 20px;
       box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-      position: relative;
-      min-height: 80vh;
-    }
-    /* Disclaimer Link */
-    .disclaimer {
       text-align: center;
-      margin: 10px 0;
     }
-    .disclaimer a {
-      color: #005ea6;
-      text-decoration: underline;
-      cursor: pointer;
-      font-weight: bold;
-      font-size: 1rem;
-    }
-    .disclaimer a i {
-      margin-right: 5px;
-    }
-    /* Login Overlay */
-    .loginOverlay {
-      display: none;
+    /* Toast Notification */
+    .toast {
       position: fixed;
-      top: 0; left: 0;
-      width: 100%; height: 100%;
-      background: rgba(0,0,0,0.5);
-      z-index: 9999;
-      justify-content: center;
-      align-items: center;
-    }
-    .loginBox {
-      background: #fff;
-      padding: 20px;
-      border-radius: 6px;
-      width: 300px;
-      text-align: center;
-    }
-    .loginBox h2 { margin-bottom: 10px; color: #007b5e; }
-    .loginBox input {
-      width: 80%;
-      padding: 8px;
-      margin-bottom: 10px;
-      border: 1px solid #ccc;
-      border-radius: 4px;
-    }
-    .loginBox button {
-      padding: 8px 16px;
-      background: #007b5e;
+      bottom: 30px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(0, 0, 0, 0.8);
       color: #fff;
-      border: none;
+      padding: 10px 20px;
       border-radius: 4px;
-      cursor: pointer;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.5s;
+      z-index: 1100;
     }
-    #customerDetails {
-      margin: 10px 0;
-      font-size: 1rem;
-      color: #007b5e;
-      font-weight: 500;
-    }
-    #errorMessage { color: #dc3545; margin-bottom: 10px; font-size: 0.9rem; }
-    button {
-      padding: 10px 16px;
-      margin: 5px;
-      font-size: 0.95rem;
-      border: none;
-      border-radius: 4px;
-      cursor: pointer;
-      transition: background-color 0.3s;
-    }
-    button:hover { opacity: 0.9; }
-    .primaryBtn { background-color: #007BFF; color: #fff; }
-    .dangerBtn { background-color: #dc3545; color: #fff; }
-    .flashBtn { background-color: #ffcc00; color: #333; }
+    /* Other Sections (similar to previous styling) */
     .stepSection {
       display: none;
       margin: 20px 0;
       padding: 15px;
       border: 1px solid #ddd;
       border-radius: 5px;
-      background-color: #fafafa;
+      background: #fafafa;
       text-align: center;
     }
     .stepSection h2 { font-size: 1rem; margin-bottom: 10px; color: #007b5e; }
@@ -178,7 +159,7 @@
       padding: 15px;
       border: 1px solid #ddd;
       border-radius: 5px;
-      background-color: #f0f8ff;
+      background: #f0f8ff;
       text-align: left;
       font-size: 0.9rem;
       color: #333;
@@ -189,7 +170,7 @@
       padding: 15px;
       border: 1px solid #ddd;
       border-radius: 5px;
-      background-color: #fff;
+      background: #fff;
     }
     .helpForm h3 { color: #007b5e; margin-bottom: 10px; font-size: 1rem; }
     .helpForm textarea {
@@ -201,7 +182,7 @@
       border-radius: 4px;
     }
     .helpForm button {
-      background-color: #007b5e;
+      background: #007b5e;
       color: #fff;
       border: none;
       border-radius: 4px;
@@ -224,23 +205,32 @@
   </style>
 </head>
 <body>
+  <!-- Global Back Arrow (only shown on non‑main pages via JS) -->
+  <div class="backArrow" id="globalBack" onclick="goBackGlobal()">
+    <i class="fa fa-arrow-left"></i>
+  </div>
+
   <!-- Header -->
   <header>
-    <img id="logo" src="https://res.cloudinary.com/dly1jfwkn/image/upload/mmbo0lj2wuwnfuyjrsoi.jpg" alt="Mahanagar Gas Logo">
-    <h1 class="headerTitle">MGL Gas Status Submission Portal</h1>
-    <i class="fa fa-bars menuDots" onclick="toggleMenu()"></i>
-    <div class="menuDropdown" id="menuDropdown">
-      <a href="#" onclick="showCustomerDetails()"><i class="fa fa-info-circle"></i> Customer Details<br><small>(BPN, Name, Address, Meter No, Mobile)</small></a>
-      <a href="#" onclick="showSubmissionStatus()"><i class="fa fa-check-circle"></i> Submission Status</a>
-      <a href="#" onclick="showLoginOverlay()"><i class="fa fa-sign-in-alt"></i> Login</a>
-      <a href="#" onclick="doLogout()"><i class="fa fa-sign-out-alt"></i> Logout</a>
+    <!-- Left side: (Global Back Arrow is positioned absolutely above) -->
+    <div class="headerCenter">
+      <img id="logo" src="https://res.cloudinary.com/dly1jfwkn/image/upload/mmbo0lj2wuwnfuyjrsoi.jpg" alt="Mahanagar Gas Logo">
+      <div class="headerTitle">MGL Gas Status Submission Portal</div>
+    </div>
+    <!-- Right Side: Disclaimer and Hamburger Menu -->
+    <div class="headerRight">
+      <button class="disclaimerBtn" onclick="showDisclaimer()">
+        <i class="fa fa-info-circle"></i> Disclaimer
+      </button>
+      <i class="fa fa-bars menuDots" onclick="toggleMenu()"></i>
+      <div class="menuDropdown" id="menuDropdown">
+        <a href="#" onclick="showCustomerDetails()"><i class="fa fa-info-circle"></i> Customer Details<br><small>(BPN, Name, Address, Meter No, Mobile)</small></a>
+        <a href="#" onclick="showSubmissionStatus()"><i class="fa fa-check-circle"></i> Submission Status</a>
+        <a href="#" onclick="showLoginOverlay()"><i class="fa fa-sign-in-alt"></i> Login</a>
+        <a href="#" onclick="doLogout()"><i class="fa fa-sign-out-alt"></i> Logout</a>
+      </div>
     </div>
   </header>
-
-  <!-- Disclaimer Link -->
-  <div class="disclaimer">
-    <a href="#" onclick="showDisclaimer()"><i class="fa fa-info-circle"></i> Disclaimer</a>
-  </div>
 
   <!-- Login Overlay -->
   <div class="loginOverlay" id="loginOverlay">
@@ -257,13 +247,16 @@
     </div>
   </div>
 
+  <!-- Toast Notification Container -->
+  <div class="toast" id="toast"></div>
+
   <!-- Main Container -->
   <div class="container">
     <p style="color:#007b5e; font-weight:600; margin-bottom:10px;">
       Welcome to MGL Gas Status Submission Portal
     </p>
     <!-- Customer Details -->
-    <h3 id="customerDetails">Welcome, Guest</h3>
+    <h3 id="customerDetails">Welcome</h3>
 
     <!-- Option Selection -->
     <div id="selection" class="stepSection" style="display:block;">
@@ -290,6 +283,7 @@
       </p>
     </div>
 
+    <!-- (The Using Gas, Not Using Gas, and Meter Disconnected workflows remain unchanged) -->
     <!-- Using Gas Workflow -->
     <div id="usingGasSteps" class="stepSection">
       <!-- Step 1: Meter's First Photo -->
@@ -455,6 +449,9 @@
     </div>
   </div>
 
+  <!-- Toast Notification Container -->
+  <div class="toast" id="toast"></div>
+
   <script>
     // Prevent browser back button from closing the web app
     history.pushState(null, null, location.href);
@@ -466,10 +463,20 @@
      * Global Variables
      ***************************************************************/
     const urlParams = new URLSearchParams(window.location.search);
-    // Allow usage without login – default to "Guest" if no bpn is provided
-    let bpn = urlParams.get('bpn') || "Guest";
+    // Remove default "Guest" auto-fill; default to empty string.
+    let bpn = urlParams.get('bpn') || "";
     let submissionStatus = "Pending";
     let currentCaptcha = "";
+
+    /***************************************************************
+     * Toast Notification Function
+     ***************************************************************/
+    function showToast(message) {
+      const toast = document.getElementById("toast");
+      toast.innerText = message;
+      toast.style.opacity = 1;
+      setTimeout(() => { toast.style.opacity = 0; }, 3000);
+    }
 
     /***************************************************************
      * CAPTCHA Generation with Random Background and Font
@@ -507,15 +514,24 @@
       }
     }
     function showCustomerDetails() {
-      alert("Customer Details:\n" + document.getElementById('customerDetails').innerText + "\nBPN: " + bpn);
+      showToast("Customer Details:\n" + document.getElementById('customerDetails').innerText + "\nBPN: " + bpn);
     }
     function showSubmissionStatus() {
-      alert("Submission Status: " + submissionStatus);
+      showToast("Submission Status: " + submissionStatus);
     }
     function doLogout() {
-      bpn = "Guest";
+      bpn = "";
       window.location.href = window.location.pathname;
     }
+
+    /***************************************************************
+     * Global Back Button Functionality
+     ***************************************************************/
+    function goBackGlobal() {
+      // Use this global back arrow to navigate to the previous page in the history
+      window.history.back();
+    }
+    // (Optionally, you can customize this function to check the current process and navigate appropriately.)
 
     /***************************************************************
      * Login Overlay Functions
@@ -525,7 +541,7 @@
     const errorMessage = document.getElementById('errorMessage');
     function showLoginOverlay() {
       loginOverlay.style.display = 'flex';
-      bpnInput.value = bpn;
+      bpnInput.value = ""; // Do not auto-fill with "Guest"
       generateCaptcha();
     }
     function doLogin() {
@@ -543,6 +559,7 @@
       bpn = val;
       loginOverlay.style.display = 'none';
       fetchCustomerDetails();
+      showToast("Logged in successfully");
     }
 
     /***************************************************************
@@ -593,7 +610,7 @@
     }
 
     /***************************************************************
-     * Back Navigation Functions
+     * Back Navigation Functions (for workflows, unchanged)
      ***************************************************************/
     function goBackUsingGas(step) {
       if (step === 'fromStep1') {
@@ -640,10 +657,10 @@
         const settings = track.getSettings();
         await track.applyConstraints({ advanced: [{ torch: !settings.torch }] });
       } else {
-        alert("Flash/torch not supported on this device.");
+        showToast("Flash/torch not supported on this device.");
       }
     }
-    // Cloudinary upload function – uploads image with BPN in the public ID.
+    // Cloudinary upload function – uploads image with BPN included in public ID.
     async function uploadToCloudinary(file, type) {
       const formData = new FormData();
       formData.append("file", file);
@@ -681,7 +698,7 @@
         meter1Stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: "environment" } });
         videoMeter1.srcObject = meter1Stream;
       } catch (error) {
-        alert("Unable to access camera: " + error.message);
+        showToast("Unable to access camera: " + error.message);
       }
     });
     flashMeter1Btn.addEventListener('click', async () => {
@@ -738,7 +755,7 @@
         flameStream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: "environment" } });
         videoFlame.srcObject = flameStream;
       } catch (error) {
-        alert("Unable to access camera: " + error.message);
+        showToast("Unable to access camera: " + error.message);
       }
     });
     flashFlameBtn.addEventListener('click', async () => {
@@ -800,7 +817,7 @@
         meter2Stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: "environment" } });
         videoMeter2.srcObject = meter2Stream;
       } catch (error) {
-        alert("Unable to access camera: " + error.message);
+        showToast("Unable to access camera: " + error.message);
       }
     });
     flashMeter2Btn.addEventListener('click', async () => {
@@ -836,7 +853,7 @@
     });
     async function submitImagesUsingGas() {
       if (!meter1Blob || !flameBlob || !meter2Blob) {
-        alert("Please capture all required images for the 'Using Gas' option.");
+        showToast("Please capture all required images for the 'Using Gas' option.");
         return;
       }
       try {
@@ -844,9 +861,9 @@
         const flameUrl = await uploadToCloudinary(flameBlob, "gas_flame");
         const meter2Url = await uploadToCloudinary(meter2Blob, "meter_photo2");
         submissionStatus = "Submitted";
-        alert("Images uploaded successfully!");
+        showToast("Images uploaded successfully!");
       } catch (error) {
-        alert("Image upload failed: " + error.message);
+        showToast("Image upload failed: " + error.message);
       }
     }
 
@@ -870,7 +887,7 @@
         meter1NotUsingStream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: "environment" } });
         videoMeter1NotUsing.srcObject = meter1NotUsingStream;
       } catch (error) {
-        alert("Unable to access camera: " + error.message);
+        showToast("Unable to access camera: " + error.message);
       }
     });
     flashMeter1NotUsingBtn.addEventListener('click', async () => {
@@ -924,7 +941,7 @@
         pipeStream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: "environment" } });
         videoPipe.srcObject = pipeStream;
       } catch (error) {
-        alert("Unable to access camera: " + error.message);
+        showToast("Unable to access camera: " + error.message);
       }
     });
     flashPipeBtn.addEventListener('click', async () => {
@@ -960,16 +977,16 @@
     });
     async function submitImagesNotUsingGas() {
       if (!meter1NotUsingBlob || !pipeBlob) {
-        alert("Please capture all required images for the 'Not Using Gas' option.");
+        showToast("Please capture all required images for the 'Not Using Gas' option.");
         return;
       }
       try {
         const meter1Url = await uploadToCloudinary(meter1NotUsingBlob, "meter_photo");
         const pipeUrl = await uploadToCloudinary(pipeBlob, "pipe_photo");
         submissionStatus = "Submitted";
-        alert("Images uploaded successfully!");
+        showToast("Images uploaded successfully!");
       } catch (error) {
-        alert("Image upload failed: " + error.message);
+        showToast("Image upload failed: " + error.message);
       }
     }
 
@@ -993,7 +1010,7 @@
         disconnectedStream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: "environment" } });
         videoDisconnected.srcObject = disconnectedStream;
       } catch (error) {
-        alert("Unable to access camera: " + error.message);
+        showToast("Unable to access camera: " + error.message);
       }
     });
     flashDisconnectedBtn.addEventListener('click', async () => {
@@ -1030,17 +1047,17 @@
     async function submitDisconnected() {
       const description = disconnectDesc.value.trim();
       if (!description || !disconnectedBlob) {
-        alert("Please enter a description and capture an image for the disconnected meter option.");
+        showToast("Please enter a description and capture an image for the disconnected meter option.");
         return;
       }
       try {
         const disconnectedUrl = await uploadToCloudinary(disconnectedBlob, "disconnected_photo");
         submissionStatus = "Submitted";
-        alert("Submission successful!");
+        showToast("Submission successful!");
         console.log("Disconnected Image URL:", disconnectedUrl);
         console.log("Description:", description);
       } catch (error) {
-        alert("Image upload failed: " + error.message);
+        showToast("Image upload failed: " + error.message);
       }
     }
 
@@ -1050,25 +1067,25 @@
     function sendHelpMessage() {
       const message = document.getElementById('helpMessage').value.trim();
       if (!message) {
-        alert("Please enter your message.");
+        showToast("Please enter your message.");
         return;
       }
       const formData = new FormData();
       formData.append("message", message);
       formData.append("bpn", bpn);
-      // Use the new deployment URL for help messages.
-      fetch("https://script.google.com/macros/s/AKfycbzrvhOdH7Bet7ZcsGmNGzPDJkX4_f6FJQfAc1n3NvUQfPzmSv9yWo1BjHje9r49hXIM/exec", {
+      // Use the new deployment URL for help messages in no-cors mode.
+      fetch("https://script.google.com/macros/s/AKfycbyQHnndoZmjXkwFy3-52PSUhCF--p9mKq2u98HXtYQlhPhcCgndma_yjBjgibWsUJ-v/exec", {
         method: "POST",
         mode: "no-cors",
         body: formData
       })
       .then(() => {
-        alert("Your message has been sent.");
+        showToast("Your message has been sent.");
         document.getElementById('helpMessage').value = "";
       })
       .catch(error => {
         console.error("Error sending help message:", error);
-        alert("Error sending message: " + error);
+        showToast("Error sending message: " + error);
       });
     }
   </script>
