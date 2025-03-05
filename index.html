@@ -4,13 +4,15 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>MGL Gas Status Submission Portal</title>
+  <!-- Google Font: Roboto -->
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
   <!-- Font Awesome for icons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
   <style>
-    /* Reset and Basic Styles */
+    /* Basic Reset and Global Styles */
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body {
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      font-family: 'Roboto', sans-serif;
       background: linear-gradient(to right, #005ea6, #0070c0);
       color: #333;
       text-align: center;
@@ -26,7 +28,6 @@
       box-shadow: 0 2px 4px rgba(0,0,0,0.1);
       position: relative;
     }
-    /* Logo in circular format */
     #logo { 
       width: 120px; 
       margin-right: 10px; 
@@ -78,7 +79,7 @@
       position: relative;
       min-height: 80vh;
     }
-    /* Disclaimer Section */
+    /* Disclaimer Link */
     .disclaimer {
       text-align: center;
       margin: 10px 0;
@@ -231,7 +232,7 @@
     <div class="menuDropdown" id="menuDropdown">
       <a href="#" onclick="showCustomerDetails()"><i class="fa fa-info-circle"></i> Customer Details<br><small>(BPN, Name, Address, Meter No, Mobile)</small></a>
       <a href="#" onclick="showSubmissionStatus()"><i class="fa fa-check-circle"></i> Submission Status</a>
-      <!-- Added Login Button -->
+      <!-- Login Button -->
       <a href="#" onclick="showLoginOverlay()"><i class="fa fa-sign-in-alt"></i> Login</a>
       <a href="#" onclick="doLogout()"><i class="fa fa-sign-out-alt"></i> Logout</a>
     </div>
@@ -240,6 +241,21 @@
   <!-- Disclaimer Link -->
   <div class="disclaimer">
     <a href="#" onclick="showDisclaimer()"><i class="fa fa-info-circle"></i> Disclaimer</a>
+  </div>
+
+  <!-- (Optional) Login Overlay -->
+  <div class="loginOverlay" id="loginOverlay">
+    <div class="loginBox">
+      <h2>Login</h2>
+      <div id="errorMessage"></div>
+      <input type="text" id="bpnInput" placeholder="Enter Business Partner No">
+      <!-- CAPTCHA Section -->
+      <div style="margin: 10px 0;">
+        <label for="captchaInput">Enter Captcha: <span id="captchaDisplay" style="padding: 4px 8px; color: #fff;"></span></label><br>
+        <input type="text" id="captchaInput" placeholder="Enter captcha">
+      </div>
+      <button onclick="doLogin()">Login</button>
+    </div>
   </div>
 
   <!-- Main Container -->
@@ -503,10 +519,31 @@
     }
 
     /***************************************************************
-     * Disclaimer Functionality
+     * Login Overlay Functions
      ***************************************************************/
-    function showDisclaimer() {
-      alert("Disclaimer:\n\nThis portal is provided solely for the routine checking of customer gas usage status. It is not affiliated with Mahanagar Gas Limited. If you cannot log in, no data will be provided by MGL to verify your gas status. This portal is owned and operated by a private company contracted by Mahanagar Gas Limited.");
+    const loginOverlay = document.getElementById('loginOverlay');
+    const bpnInput = document.getElementById('bpnInput');
+    const errorMessage = document.getElementById('errorMessage');
+    function showLoginOverlay() {
+      loginOverlay.style.display = 'flex';
+      bpnInput.value = bpn;
+      generateCaptcha();
+    }
+    function doLogin() {
+      const val = bpnInput.value.trim();
+      const captchaVal = document.getElementById('captchaInput').value.trim();
+      if (!val) {
+        errorMessage.innerText = "Please enter a valid Business Partner Number";
+        return;
+      }
+      if (captchaVal !== currentCaptcha) {
+        errorMessage.innerText = "Incorrect captcha. Please try again.";
+        generateCaptcha();
+        return;
+      }
+      bpn = val;
+      loginOverlay.style.display = 'none';
+      fetchCustomerDetails();
     }
 
     /***************************************************************
@@ -607,7 +644,7 @@
         alert("Flash/torch not supported on this device.");
       }
     }
-    // Cloudinary upload function that saves the photo with the customer's BPN in the file name.
+    // Cloudinary upload function – uploads image with BPN included in the public ID.
     async function uploadToCloudinary(file, type) {
       const formData = new FormData();
       formData.append("file", file);
@@ -1020,9 +1057,10 @@
       const formData = new FormData();
       formData.append("message", message);
       formData.append("bpn", bpn);
-      // Updated HelpMessages deployment URL
+      // Updated HelpMessages deployment URL with CORS mode
       fetch("https://script.google.com/macros/s/AKfycbzQhJbgjTnPjFH1dKaSmGhRMDaf27-HXG9O897fM001A4j1M2KDlzRjgMCnevW8a1sg/exec", {
         method: "POST",
+        mode: "cors",
         body: formData
       })
       .then(response => response.json())
