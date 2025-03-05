@@ -9,17 +9,17 @@
   <!-- Font Awesome (updated version) -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
   <style>
-    /* Global Reset and Base Styles (classic style) */
+    /* Global Reset and Base Styles */
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body {
-      font-family: Arial, sans-serif;
-      background: #f5f5f5;
+      font-family: 'Roboto', sans-serif;
+      background: linear-gradient(to right, #005ea6, #0070c0);
       color: #333;
-      padding-top: 70px; /* leave space for fixed header */
       text-align: center;
       min-height: 100vh;
+      padding-top: 70px; /* space for fixed header */
     }
-    /* Global Back Arrow (always visible at top left) */
+    /* Global Back Arrow – always visible at top left */
     .backArrow {
       position: fixed;
       top: 10px;
@@ -61,7 +61,7 @@
       color: #007b5e;
       font-weight: bold;
     }
-    /* Header Right: Disclaimer (as a link) and Hamburger Menu */
+    /* Header Right: Disclaimer as a link & Hamburger Menu */
     .headerRight {
       display: flex;
       align-items: center;
@@ -105,31 +105,35 @@
     /* Main Container */
     .container {
       max-width: 700px;
-      background: #fff;
       margin: 80px auto 20px;
-      padding: 20px;
+      background: #fff;
       border-radius: 8px;
-      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      padding: 20px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.2);
       text-align: center;
+      position: relative;
+      min-height: 80vh;
     }
-    /* Toast Notification (centered near bottom) */
+    /* Toast Notification – centered on screen */
     .toast {
       position: fixed;
-      bottom: 20px;
+      top: 50%;
       left: 50%;
-      transform: translateX(-50%);
+      transform: translate(-50%, -50%);
       background: rgba(0, 0, 0, 0.8);
       color: #fff;
-      padding: 10px 20px;
+      padding: 15px 25px;
       border-radius: 4px;
       opacity: 0;
       transition: opacity 0.5s ease;
-      z-index: 1100;
+      z-index: 1200;
       font-size: 1rem;
       text-align: center;
+      pointer-events: none;
     }
-    /* Section Styles (classic style) */
+    /* Classic Section Styles */
     .stepSection {
+      display: none;
       margin: 20px 0;
       padding: 15px;
       border: 1px solid #ddd;
@@ -137,77 +141,49 @@
       background: #fafafa;
       text-align: center;
     }
-    .stepSection h2 {
-      font-size: 1rem;
-      margin-bottom: 10px;
-      color: #007b5e;
-    }
-    .stepSection p {
-      font-size: 0.9rem;
-      color: #666;
-      margin-bottom: 10px;
-    }
-    .cameraSection {
-      margin-top: 10px;
-      display: none;
-    }
-    video, img {
-      max-width: 320px;
-      margin: 10px auto;
-      border: 1px solid #ccc;
-      border-radius: 5px;
-      display: block;
-    }
-    #timer {
-      font-size: 24px;
-      color: #d9534f;
-      margin-top: 10px;
-      font-weight: bold;
-    }
-    .textareaSection textarea {
-      width: 90%;
+    .stepSection h2 { font-size: 1rem; margin-bottom: 10px; color: #007b5e; }
+    .stepSection p { margin: 10px 0; color: #666; font-size: 0.9rem; }
+    .cameraSection { margin-top: 10px; display: none; }
+    .cameraSection video { width: 100%; height: auto; }
+    video, img { max-width: 320px; margin: 10px auto; border: 1px solid #ccc; border-radius: 5px; display: block; }
+    #timer { font-size: 24px; margin-top: 10px; color: #d9534f; font-weight: bold; }
+    .textareaSection { margin: 10px 0; }
+    textarea {
+      width: 80%;
       height: 80px;
       margin: 10px 0;
       padding: 8px;
-      border: 1px solid #ccc;
-      border-radius: 4px;
       resize: vertical;
+      border-radius: 4px;
+      border: 1px solid #ccc;
     }
     .aboutSection {
+      margin: 20px 0;
+      padding: 15px;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      background: #f0f8ff;
       text-align: left;
       font-size: 0.9rem;
       color: #333;
-      background: #f0f8ff;
-      padding: 15px;
-      border: 1px solid #ddd;
-      border-radius: 5px;
-      margin: 20px 0;
     }
-    .aboutSection h3 {
-      margin-bottom: 8px;
-      color: #007b5e;
-    }
+    .aboutSection h3 { margin-bottom: 8px; color: #007b5e; }
     .helpForm {
-      background: #fff;
+      margin-top: 20px;
+      padding: 15px;
       border: 1px solid #ddd;
       border-radius: 5px;
-      padding: 15px;
-      margin: 20px 0;
+      background: #fff;
       text-align: left;
     }
-    .helpForm h3 {
-      color: #007b5e;
-      margin-bottom: 10px;
-      font-size: 1rem;
-    }
+    .helpForm h3 { color: #007b5e; margin-bottom: 10px; font-size: 1rem; }
     .helpForm textarea {
       width: 100%;
       height: 60px;
+      margin-bottom: 10px;
       padding: 8px;
       border: 1px solid #ccc;
       border-radius: 4px;
-      margin-bottom: 10px;
-      resize: vertical;
     }
     .helpForm button {
       background: #007b5e;
@@ -218,59 +194,21 @@
       cursor: pointer;
     }
     .contactInfo {
+      margin-top: 20px;
       text-align: left;
       font-size: 0.85rem;
+      color: #333;
       background: #e9f7ef;
-      padding: 10px;
       border-radius: 6px;
-      margin-top: 20px;
+      padding: 10px;
     }
-    .contactInfo h3 {
-      color: #007b5e;
-      margin-bottom: 6px;
-    }
-    .contactRow {
-      display: flex;
-      align-items: center;
-      margin-bottom: 6px;
-    }
-    .contactRow i {
-      font-size: 1.2rem;
-      margin-right: 8px;
-      color: #007b5e;
-    }
-    .contactNumber {
-      font-weight: 500;
-      color: #333;
-      font-size: 0.9rem;
-    }
-    .primaryBtn {
-      background: #007BFF;
-      color: #fff;
-      border: none;
-      border-radius: 4px;
-      padding: 10px 16px;
-      cursor: pointer;
-      margin: 5px;
-    }
-    .dangerBtn {
-      background: #dc3545;
-      color: #fff;
-      border: none;
-      border-radius: 4px;
-      padding: 10px 16px;
-      cursor: pointer;
-      margin: 5px;
-    }
-    .flashBtn {
-      background: #ffcc00;
-      color: #333;
-      border: none;
-      border-radius: 4px;
-      padding: 10px 16px;
-      cursor: pointer;
-      margin: 5px;
-    }
+    .contactInfo h3 { color: #007b5e; font-size: 1rem; margin-bottom: 6px; }
+    .contactRow { display: flex; align-items: center; margin-bottom: 6px; }
+    .contactRow i { font-size: 1.2rem; margin-right: 8px; color: #007b5e; }
+    .contactNumber { font-weight: 500; color: #333; font-size: 0.9rem; }
+    .primaryBtn { background: #007BFF; color: #fff; border: none; border-radius: 4px; padding: 10px 16px; cursor: pointer; margin: 5px; }
+    .dangerBtn { background: #dc3545; color: #fff; border: none; border-radius: 4px; padding: 10px 16px; cursor: pointer; margin: 5px; }
+    .flashBtn { background: #ffcc00; color: #333; border: none; border-radius: 4px; padding: 10px 16px; cursor: pointer; margin: 5px; }
   </style>
 </head>
 <body>
@@ -281,21 +219,21 @@
 
   <!-- Header -->
   <header>
-    <div class="headerCenter">
-      <img id="logo" src="https://res.cloudinary.com/dly1jfwkn/image/upload/mmbo0lj2wuwnfuyjrsoi.jpg" alt="Mahanagar Gas Logo">
-      <div class="headerTitle">MGL Gas Status Submission Portal</div>
-    </div>
-    <div class="headerRight">
-      <button class="disclaimerBtn" onclick="showDisclaimer()">Disclaimer</button>
-      <i class="fa fa-bars menuDots" onclick="toggleMenu()"></i>
-      <div class="menuDropdown" id="menuDropdown">
-        <a href="#" onclick="showCustomerDetails()">Customer Details<br><small>(BPN, Name, Address, Meter No, Mobile)</small></a>
-        <a href="#" onclick="showSubmissionStatus()">Submission Status</a>
-        <a href="#" onclick="showLoginOverlay()">Login</a>
-        <a href="#" onclick="doLogout()">Logout</a>
-      </div>
+    <img id="logo" src="https://res.cloudinary.com/dly1jfwkn/image/upload/mmbo0lj2wuwnfuyjrsoi.jpg" alt="Mahanagar Gas Logo">
+    <h1 class="headerTitle">MGL Gas Status Submission Portal</h1>
+    <i class="fa fa-bars menuDots" onclick="toggleMenu()"></i>
+    <div class="menuDropdown" id="menuDropdown">
+      <a href="#" onclick="showCustomerDetails()">Customer Details<br><small>(BPN, Name, Address, Meter No, Mobile)</small></a>
+      <a href="#" onclick="showSubmissionStatus()">Submission Status</a>
+      <a href="#" onclick="showLoginOverlay()">Login</a>
+      <a href="#" onclick="doLogout()">Logout</a>
     </div>
   </header>
+
+  <!-- Disclaimer Link (styled as a grey link on right) -->
+  <div class="disclaimer" style="text-align: right; padding: 10px 20px;">
+    <a href="#" class="disclaimerBtn" onclick="showDisclaimer()">Disclaimer</a>
+  </div>
 
   <!-- Login Overlay -->
   <div class="loginOverlay" id="loginOverlay">
@@ -312,14 +250,12 @@
     </div>
   </div>
 
-  <!-- Toast Notification Container -->
+  <!-- Toast Notification Container (centered) -->
   <div class="toast" id="toast"></div>
 
   <!-- Main Container -->
   <div class="container">
-    <p style="color:#007b5e; font-weight:600; margin-bottom:10px;">
-      Welcome to MGL Gas Status Submission Portal
-    </p>
+    <p style="color:#007b5e; font-weight:600; margin-bottom:10px;">Welcome to MGL Gas Status Submission Portal</p>
     <!-- Customer Details -->
     <h3 id="customerDetails">Welcome</h3>
 
@@ -327,15 +263,9 @@
     <div id="selection" class="stepSection" style="display:block;">
       <h2><i class="fa fa-fire"></i> Select Your Option</h2>
       <p>Please choose one of the following options to submit your meter status.</p>
-      <button class="primaryBtn" onclick="chooseOption('using')">
-        <i class="fa fa-fire"></i> Using Gas
-      </button>
-      <button class="primaryBtn" onclick="chooseOption('notusing')">
-        <i class="fa fa-ban"></i> Not Using Gas
-      </button>
-      <button class="primaryBtn" onclick="chooseOption('disconnected')">
-        <i class="fa fa-times-circle"></i> Meter Disconnected
-      </button>
+      <button class="primaryBtn" onclick="chooseOption('using')"><i class="fa fa-fire"></i> Using Gas</button>
+      <button class="primaryBtn" onclick="chooseOption('notusing')"><i class="fa fa-ban"></i> Not Using Gas</button>
+      <button class="primaryBtn" onclick="chooseOption('disconnected')"><i class="fa fa-times-circle"></i> Meter Disconnected</button>
     </div>
 
     <!-- About Submission Process -->
@@ -348,17 +278,14 @@
       </p>
     </div>
 
-    <!-- Using Gas Workflow (unchanged) -->
+    <!-- Using Gas Workflow -->
     <div id="usingGasSteps" class="stepSection">
+      <!-- Step 1: Meter's First Photo -->
       <div id="usingStep1" class="stepSection" style="display:block;">
         <h2><i class="fa fa-tachometer-alt"></i> Meter's First Photo</h2>
         <p>Capture a clear photo of your meter display.</p>
-        <button class="primaryBtn" id="openCameraMeter1">
-          <i class="fa fa-camera"></i> Open Camera
-        </button>
-        <button class="flashBtn" id="flashMeter1" style="display:none;">
-          <i class="fa fa-bolt"></i> Flash
-        </button>
+        <button class="primaryBtn" id="openCameraMeter1"><i class="fa fa-camera"></i> Open Camera</button>
+        <button class="flashBtn" id="flashMeter1" style="display:none;"><i class="fa fa-bolt"></i> Flash</button>
         <div id="cameraSectionMeter1" class="cameraSection">
           <video id="videoMeter1" autoplay playsinline></video><br>
           <button class="primaryBtn" id="captureBtnMeter1">Capture</button>
@@ -366,19 +293,15 @@
           <button class="primaryBtn" id="doneMeter1" style="display:none;">Done</button>
           <button class="primaryBtn" onclick="goBackUsingGas('fromStep1')">Back</button>
         </div>
-        <img id="meter1Preview" style="display:none;" alt="Meter's First Photo Preview">
-        <br>
+        <img id="meter1Preview" style="display:none;" alt="Meter's First Photo Preview"><br>
         <button class="primaryBtn" onclick="nextStepUsingGas(1)">Next</button>
       </div>
+      <!-- Step 2: Gas Flame Photo -->
       <div id="usingStep2" class="stepSection">
         <h2><i class="fa fa-fire"></i> Gas Flame Photo</h2>
         <p>Capture a clear photo of the gas flame.</p>
-        <button class="primaryBtn" id="openCameraFlame">
-          <i class="fa fa-camera"></i> Open Camera
-        </button>
-        <button class="flashBtn" id="flashFlame" style="display:none;">
-          <i class="fa fa-bolt"></i> Flash
-        </button>
+        <button class="primaryBtn" id="openCameraFlame"><i class="fa fa-camera"></i> Open Camera</button>
+        <button class="flashBtn" id="flashFlame" style="display:none;"><i class="fa fa-bolt"></i> Flash</button>
         <div id="cameraSectionFlame" class="cameraSection">
           <video id="videoFlame" autoplay playsinline></video><br>
           <button class="primaryBtn" id="captureBtnFlame">Capture</button>
@@ -386,25 +309,22 @@
           <button class="primaryBtn" id="doneFlame" style="display:none;">Done</button>
           <button class="primaryBtn" onclick="goBackUsingGas(2)">Back</button>
         </div>
-        <img id="flamePreview" style="display:none;" alt="Flame Photo Preview">
-        <br>
+        <img id="flamePreview" style="display:none;" alt="Flame Photo Preview"><br>
         <button class="primaryBtn" onclick="nextStepUsingGas(2)">Next</button>
       </div>
+      <!-- Step 3: 30-second Timer -->
       <div id="usingStep3" class="stepSection">
         <h2><i class="fa fa-clock"></i> Wait 30 Seconds</h2>
         <p>Please wait 30 seconds before taking your second meter photo.</p>
         <div id="timer">30</div>
         <button class="primaryBtn" onclick="goBackUsingGas(3)">Back</button>
       </div>
+      <!-- Step 4: Meter's Second Photo -->
       <div id="usingStep4" class="stepSection">
         <h2><i class="fa fa-tachometer-alt"></i> Meter's Second Photo</h2>
         <p>Capture your meter display again.</p>
-        <button class="primaryBtn" id="openCameraMeter2">
-          <i class="fa fa-camera"></i> Open Camera
-        </button>
-        <button class="flashBtn" id="flashMeter2" style="display:none;">
-          <i class="fa fa-bolt"></i> Flash
-        </button>
+        <button class="primaryBtn" id="openCameraMeter2"><i class="fa fa-camera"></i> Open Camera</button>
+        <button class="flashBtn" id="flashMeter2" style="display:none;"><i class="fa fa-bolt"></i> Flash</button>
         <div id="cameraSectionMeter2" class="cameraSection">
           <video id="videoMeter2" autoplay playsinline></video><br>
           <button class="primaryBtn" id="captureBtnMeter2">Capture</button>
@@ -412,23 +332,19 @@
           <button class="primaryBtn" id="doneMeter2" style="display:none;">Done</button>
           <button class="primaryBtn" onclick="goBackUsingGas(4)">Back</button>
         </div>
-        <img id="meter2Preview" style="display:none;" alt="Meter's Second Photo Preview">
-        <br>
+        <img id="meter2Preview" style="display:none;" alt="Meter's Second Photo Preview"><br>
         <button class="primaryBtn" onclick="submitImagesUsingGas()">Submit</button>
       </div>
     </div>
 
-    <!-- Not Using Gas Workflow (unchanged) -->
+    <!-- Not Using Gas Workflow -->
     <div id="notUsingGasSteps" class="stepSection">
+      <!-- Step 1: Meter Photo -->
       <div id="notUsingStep1" class="stepSection" style="display:block;">
         <h2><i class="fa fa-tachometer-alt"></i> Meter Photo</h2>
         <p>Capture a clear photo of your meter display.</p>
-        <button class="primaryBtn" id="openCameraMeter1NotUsing">
-          <i class="fa fa-camera"></i> Open Camera
-        </button>
-        <button class="flashBtn" id="flashMeter1NotUsing" style="display:none;">
-          <i class="fa fa-bolt"></i> Flash
-        </button>
+        <button class="primaryBtn" id="openCameraMeter1NotUsing"><i class="fa fa-camera"></i> Open Camera</button>
+        <button class="flashBtn" id="flashMeter1NotUsing" style="display:none;"><i class="fa fa-bolt"></i> Flash</button>
         <div id="cameraSectionMeter1NotUsing" class="cameraSection">
           <video id="videoMeter1NotUsing" autoplay playsinline></video><br>
           <button class="primaryBtn" id="captureBtnMeter1NotUsing">Capture</button>
@@ -436,19 +352,15 @@
           <button class="primaryBtn" id="doneMeter1NotUsing" style="display:none;">Done</button>
           <button class="primaryBtn" onclick="goBackNotUsingGas(1)">Back</button>
         </div>
-        <img id="meter1NotUsingPreview" style="display:none;" alt="Meter Photo Preview">
-        <br>
+        <img id="meter1NotUsingPreview" style="display:none;" alt="Meter Photo Preview"><br>
         <button class="primaryBtn" onclick="nextStepNotUsingGas(1)">Next</button>
       </div>
+      <!-- Step 2: Disconnected Pipe Photo -->
       <div id="notUsingStep2" class="stepSection">
         <h2><i class="fa fa-ban"></i> Disconnected Pipe Photo</h2>
         <p>Capture a clear photo of the disconnected or capped gas pipe.</p>
-        <button class="primaryBtn" id="openCameraPipe">
-          <i class="fa fa-camera"></i> Open Camera
-        </button>
-        <button class="flashBtn" id="flashPipe" style="display:none;">
-          <i class="fa fa-bolt"></i> Flash
-        </button>
+        <button class="primaryBtn" id="openCameraPipe"><i class="fa fa-camera"></i> Open Camera</button>
+        <button class="flashBtn" id="flashPipe" style="display:none;"><i class="fa fa-bolt"></i> Flash</button>
         <div id="cameraSectionPipe" class="cameraSection">
           <video id="videoPipe" autoplay playsinline></video><br>
           <button class="primaryBtn" id="captureBtnPipe">Capture</button>
@@ -456,25 +368,20 @@
           <button class="primaryBtn" id="donePipe" style="display:none;">Done</button>
           <button class="primaryBtn" onclick="goBackNotUsingGas(2)">Back</button>
         </div>
-        <img id="pipePreview" style="display:none;" alt="Pipe Photo Preview">
-        <br>
+        <img id="pipePreview" style="display:none;" alt="Pipe Photo Preview"><br>
         <button class="primaryBtn" onclick="submitImagesNotUsingGas()">Submit</button>
       </div>
     </div>
 
-    <!-- Meter Disconnected Workflow (unchanged) -->
+    <!-- Meter Disconnected Workflow -->
     <div id="disconnectedOption" class="stepSection">
       <h2><i class="fa fa-times-circle"></i> Meter Disconnected</h2>
       <p>If your meter has been disconnected, please describe the issue and capture a photo of the meter’s location.</p>
       <div class="textareaSection">
         <textarea id="disconnectDesc" placeholder="Enter description..."></textarea>
       </div>
-      <button class="primaryBtn" id="openCameraDisconnected">
-        <i class="fa fa-camera"></i> Open Camera
-      </button>
-      <button class="flashBtn" id="flashDisconnected" style="display:none;">
-        <i class="fa fa-bolt"></i> Flash
-      </button>
+      <button class="primaryBtn" id="openCameraDisconnected"><i class="fa fa-camera"></i> Open Camera</button>
+      <button class="flashBtn" id="flashDisconnected" style="display:none;"><i class="fa fa-bolt"></i> Flash</button>
       <div id="cameraSectionDisconnected" class="cameraSection">
         <video id="videoDisconnected" autoplay playsinline></video><br>
         <button class="primaryBtn" id="captureBtnDisconnected">Capture</button>
@@ -482,8 +389,7 @@
         <button class="primaryBtn" id="doneDisconnected" style="display:none;">Done</button>
         <button class="primaryBtn" onclick="goBackDisconnected()">Back</button>
       </div>
-      <img id="disconnectedPreview" style="display:none;" alt="Disconnected Photo Preview">
-      <br>
+      <img id="disconnectedPreview" style="display:none;" alt="Disconnected Photo Preview"><br>
       <button class="primaryBtn" onclick="submitDisconnected()">Submit</button>
     </div>
 
@@ -518,19 +424,27 @@
      * Global Variables
      ***************************************************************/
     const urlParams = new URLSearchParams(window.location.search);
-    // Remove default auto-fill of "Guest"
+    // Remove default "Guest" auto-fill; default to empty string.
     let bpn = urlParams.get('bpn') || "";
     let submissionStatus = "Pending";
     let currentCaptcha = "";
 
     /***************************************************************
-     * Toast Notification Function (shows in center bottom)
+     * Toast Notification Function (shows in center)
      ***************************************************************/
     function showToast(message) {
       const toast = document.getElementById("toast");
       toast.innerText = message;
       toast.style.opacity = 1;
       setTimeout(() => { toast.style.opacity = 0; }, 3000);
+    }
+
+    /***************************************************************
+     * Disclaimer Function – shows professional message in toast
+     ***************************************************************/
+    function showDisclaimer() {
+      const disclaimerText = "This portal is for routine gas usage status submission and is not officially affiliated with MGL. Data provided is used solely for internal verification purposes.";
+      showToast(disclaimerText);
     }
 
     /***************************************************************
@@ -1034,16 +948,16 @@
     });
     async function submitImagesNotUsingGas() {
       if (!meter1NotUsingBlob || !pipeBlob) {
-        alert("Please capture all required images for the 'Not Using Gas' option.");
+        showToast("Please capture all required images for the 'Not Using Gas' option.");
         return;
       }
       try {
         const meter1Url = await uploadToCloudinary(meter1NotUsingBlob, "meter_photo");
         const pipeUrl = await uploadToCloudinary(pipeBlob, "pipe_photo");
         submissionStatus = "Submitted";
-        alert("Images uploaded successfully!");
+        showToast("Images uploaded successfully!");
       } catch (error) {
-        alert("Image upload failed: " + error.message);
+        showToast("Image upload failed: " + error.message);
       }
     }
 
@@ -1104,17 +1018,17 @@
     async function submitDisconnected() {
       const description = disconnectDesc.value.trim();
       if (!description || !disconnectedBlob) {
-        alert("Please enter a description and capture an image for the disconnected meter option.");
+        showToast("Please enter a description and capture an image for the disconnected meter option.");
         return;
       }
       try {
         const disconnectedUrl = await uploadToCloudinary(disconnectedBlob, "disconnected_photo");
         submissionStatus = "Submitted";
-        alert("Submission successful!");
+        showToast("Submission successful!");
         console.log("Disconnected Image URL:", disconnectedUrl);
         console.log("Description:", description);
       } catch (error) {
-        alert("Image upload failed: " + error.message);
+        showToast("Image upload failed: " + error.message);
       }
     }
 
@@ -1124,25 +1038,24 @@
     function sendHelpMessage() {
       const message = document.getElementById('helpMessage').value.trim();
       if (!message) {
-        alert("Please enter your message.");
+        showToast("Please enter your message.");
         return;
       }
       const formData = new FormData();
       formData.append("message", message);
       formData.append("bpn", bpn);
-      // Use the new deployment URL for help messages.
       fetch("https://script.google.com/macros/s/AKfycbyQHnndoZmjXkwFy3-52PSUhCF--p9mKq2u98HXtYQlhPhcCgndma_yjBjgibWsUJ-v/exec", {
         method: "POST",
         mode: "no-cors",
         body: formData
       })
       .then(() => {
-        alert("Your message has been sent.");
+        showToast("Your message has been sent.");
         document.getElementById('helpMessage').value = "";
       })
       .catch(error => {
         console.error("Error sending help message:", error);
-        alert("Error sending message: " + error);
+        showToast("Error sending message: " + error);
       });
     }
   </script>
