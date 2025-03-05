@@ -28,7 +28,6 @@
       box-shadow: 0 2px 4px rgba(0,0,0,0.1);
       position: relative;
     }
-    /* Circular Logo */
     #logo { 
       width: 120px; 
       margin-right: 10px; 
@@ -233,7 +232,6 @@
     <div class="menuDropdown" id="menuDropdown">
       <a href="#" onclick="showCustomerDetails()"><i class="fa fa-info-circle"></i> Customer Details<br><small>(BPN, Name, Address, Meter No, Mobile)</small></a>
       <a href="#" onclick="showSubmissionStatus()"><i class="fa fa-check-circle"></i> Submission Status</a>
-      <!-- Login Button Added Back -->
       <a href="#" onclick="showLoginOverlay()"><i class="fa fa-sign-in-alt"></i> Login</a>
       <a href="#" onclick="doLogout()"><i class="fa fa-sign-out-alt"></i> Logout</a>
     </div>
@@ -468,7 +466,7 @@
      * Global Variables
      ***************************************************************/
     const urlParams = new URLSearchParams(window.location.search);
-    // Default to "Guest" if no bpn provided
+    // Allow usage without login – default to "Guest" if no bpn is provided
     let bpn = urlParams.get('bpn') || "Guest";
     let submissionStatus = "Pending";
     let currentCaptcha = "";
@@ -645,7 +643,7 @@
         alert("Flash/torch not supported on this device.");
       }
     }
-    // Cloudinary upload function – uploads image with BPN included in public ID.
+    // Cloudinary upload function – uploads image with BPN in the public ID.
     async function uploadToCloudinary(file, type) {
       const formData = new FormData();
       formData.append("file", file);
@@ -1058,14 +1056,13 @@
       const formData = new FormData();
       formData.append("message", message);
       formData.append("bpn", bpn);
-      // Use the updated HelpMessages deployment URL in no-cors mode.
-      fetch("https://script.google.com/macros/s/AKfycbzQhJbgjTnPjFH1dKaSmGhRMDaf27-HXG9O897fM001A4j1M2KDlzRjgMCnevW8a1sg/exec", {
+      // Use the new deployment URL for help messages.
+      fetch("https://script.google.com/macros/s/AKfycbyQHnndoZmjXkwFy3-52PSUhCF--p9mKq2u98HXtYQlhPhcCgndma_yjBjgibWsUJ-v/exec", {
         method: "POST",
         mode: "no-cors",
         body: formData
       })
       .then(() => {
-        // With no-cors mode, the response is opaque—you won’t get a JSON response.
         alert("Your message has been sent.");
         document.getElementById('helpMessage').value = "";
       })
