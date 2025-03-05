@@ -219,21 +219,21 @@
 
   <!-- Header -->
   <header>
-    <img id="logo" src="https://res.cloudinary.com/dly1jfwkn/image/upload/mmbo0lj2wuwnfuyjrsoi.jpg" alt="Mahanagar Gas Logo">
-    <h1 class="headerTitle">MGL Gas Status Submission Portal</h1>
-    <i class="fa fa-bars menuDots" onclick="toggleMenu()"></i>
-    <div class="menuDropdown" id="menuDropdown">
-      <a href="#" onclick="showCustomerDetails()">Customer Details<br><small>(BPN, Name, Address, Meter No, Mobile)</small></a>
-      <a href="#" onclick="showSubmissionStatus()">Submission Status</a>
-      <a href="#" onclick="showLoginOverlay()">Login</a>
-      <a href="#" onclick="doLogout()">Logout</a>
+    <div class="headerCenter">
+      <img id="logo" src="https://res.cloudinary.com/dly1jfwkn/image/upload/mmbo0lj2wuwnfuyjrsoi.jpg" alt="Mahanagar Gas Logo">
+      <h1 class="headerTitle">MGL Gas Status Submission Portal</h1>
+    </div>
+    <div class="headerRight">
+      <button class="disclaimerBtn" onclick="showDisclaimer()">Disclaimer</button>
+      <i class="fa fa-bars menuDots" onclick="toggleMenu()"></i>
+      <div class="menuDropdown" id="menuDropdown">
+        <a href="#" onclick="showCustomerDetails()">Customer Details<br><small>(BPN, Name, Address, Meter No, Mobile)</small></a>
+        <a href="#" onclick="showSubmissionStatus()">Submission Status</a>
+        <a href="#" onclick="showLoginOverlay()">Login</a>
+        <a href="#" onclick="doLogout()">Logout</a>
+      </div>
     </div>
   </header>
-
-  <!-- Disclaimer Link (styled as a grey link on right) -->
-  <div class="disclaimer" style="text-align: right; padding: 10px 20px;">
-    <a href="#" class="disclaimerBtn" onclick="showDisclaimer()">Disclaimer</a>
-  </div>
 
   <!-- Login Overlay -->
   <div class="loginOverlay" id="loginOverlay">
@@ -424,13 +424,13 @@
      * Global Variables
      ***************************************************************/
     const urlParams = new URLSearchParams(window.location.search);
-    // Remove default "Guest" auto-fill; default to empty string.
+    // Remove default auto-fill ("Guest") – default to empty string.
     let bpn = urlParams.get('bpn') || "";
     let submissionStatus = "Pending";
     let currentCaptcha = "";
 
     /***************************************************************
-     * Toast Notification Function (shows in center)
+     * Toast Notification Function (shows centered)
      ***************************************************************/
     function showToast(message) {
       const toast = document.getElementById("toast");
@@ -443,7 +443,7 @@
      * Disclaimer Function – shows professional message in toast
      ***************************************************************/
     function showDisclaimer() {
-      const disclaimerText = "This portal is for routine gas usage status submission and is not officially affiliated with MGL. Data provided is used solely for internal verification purposes.";
+      const disclaimerText = "This portal is for routine gas status submission only and is not officially affiliated with MGL. Data provided is used solely for internal verification.";
       showToast(disclaimerText);
     }
 
@@ -1044,6 +1044,7 @@
       const formData = new FormData();
       formData.append("message", message);
       formData.append("bpn", bpn);
+      // Use the deployment URL for help messages.
       fetch("https://script.google.com/macros/s/AKfycbyQHnndoZmjXkwFy3-52PSUhCF--p9mKq2u98HXtYQlhPhcCgndma_yjBjgibWsUJ-v/exec", {
         method: "POST",
         mode: "no-cors",
