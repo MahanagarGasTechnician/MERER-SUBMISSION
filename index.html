@@ -6,76 +6,71 @@
   <title>MGL Gas Status Submission Portal</title>
   <!-- Google Font: Roboto -->
   <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
-  <!-- Font Awesome – updated version -->
+  <!-- Font Awesome (updated version) -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
   <style>
-    /* Global Reset and Base Styles */
+    /* Global Reset and Base Styles (classic style) */
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body {
-      font-family: 'Roboto', sans-serif;
-      background: linear-gradient(to right, #005ea6, #0070c0);
+      font-family: Arial, sans-serif;
+      background: #f5f5f5;
       color: #333;
-      min-height: 100vh;
-      position: relative;
-      padding-top: 60px; /* space for fixed header */
+      padding-top: 70px; /* Leave space for fixed header */
     }
-    /* Header: fixed at top with three areas */
+    /* Header */
     header {
       position: fixed;
       top: 0;
       left: 0;
       width: 100%;
-      height: 60px;
-      background: #ffffffcc;
-      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      height: 70px;
+      background: #fff;
+      border-bottom: 1px solid #ccc;
       display: flex;
       align-items: center;
       justify-content: space-between;
       padding: 0 10px;
       z-index: 1000;
     }
-    /* Back Arrow (left side) */
+    /* Global Back Arrow on Top Left */
     .backArrow {
       font-size: 1.5rem;
       color: #007b5e;
       cursor: pointer;
-      display: none; /* We'll show it conditionally via JS if needed */
+      margin-right: 10px;
+      display: none; /* Show conditionally if needed */
     }
-    /* Center Logo and Title */
+    /* Header Center: Logo and Title */
     .headerCenter {
       display: flex;
       align-items: center;
       gap: 10px;
     }
-    #logo { 
-      width: 50px; 
+    #logo {
+      width: 50px;
       height: 50px;
-      border-radius: 50%; 
+      border-radius: 50%;
       object-fit: cover;
     }
-    .headerTitle { 
-      font-size: 1.2rem; 
-      color: #007b5e; 
-      font-weight: 500;
+    .headerTitle {
+      font-size: 1.2rem;
+      color: #007b5e;
+      font-weight: bold;
     }
-    /* Right Side: Disclaimer button & Hamburger Menu */
+    /* Header Right: Disclaimer Button & Hamburger */
     .headerRight {
       display: flex;
       align-items: center;
-      gap: 15px;
+      gap: 10px;
     }
     .disclaimerBtn {
       background: #333;
       color: #fff;
+      border: none;
       padding: 5px 10px;
       border-radius: 4px;
-      text-decoration: none;
-      font-size: 0.9rem;
       cursor: pointer;
-      border: none;
-    }
-    .disclaimerBtn i {
-      margin-right: 5px;
+      font-size: 0.9rem;
     }
     .menuDots {
       font-size: 1.5rem;
@@ -85,14 +80,14 @@
     .menuDropdown {
       display: none;
       position: absolute;
-      top: 50px;
+      top: 70px;
       right: 10px;
       background: #fff;
       border: 1px solid #ccc;
       border-radius: 4px;
       width: 200px;
       text-align: left;
-      z-index: 999;
+      z-index: 1000;
     }
     .menuDropdown a {
       display: block;
@@ -102,35 +97,21 @@
       border-bottom: 1px solid #eee;
       font-size: 0.9rem;
     }
-    .menuDropdown a:hover { background-color: #f2f2f2; }
+    .menuDropdown a:hover {
+      background: #f2f2f2;
+    }
     /* Main Container */
     .container {
       max-width: 700px;
-      margin: 20px auto;
       background: #fff;
-      border-radius: 8px;
+      margin: 80px auto 20px;
       padding: 20px;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+      border-radius: 8px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
       text-align: center;
     }
-    /* Toast Notification */
-    .toast {
-      position: fixed;
-      bottom: 30px;
-      left: 50%;
-      transform: translateX(-50%);
-      background: rgba(0, 0, 0, 0.8);
-      color: #fff;
-      padding: 10px 20px;
-      border-radius: 4px;
-      opacity: 0;
-      pointer-events: none;
-      transition: opacity 0.5s;
-      z-index: 1100;
-    }
-    /* Other Sections (similar to previous styling) */
+    /* Section Styles (kept similar to previous style) */
     .stepSection {
-      display: none;
       margin: 20px 0;
       padding: 15px;
       border: 1px solid #ddd;
@@ -138,48 +119,77 @@
       background: #fafafa;
       text-align: center;
     }
-    .stepSection h2 { font-size: 1rem; margin-bottom: 10px; color: #007b5e; }
-    .stepSection p { margin: 10px 0; color: #666; font-size: 0.9rem; }
-    .cameraSection { margin-top: 10px; display: none; }
-    .cameraSection video { width: 100%; height: auto; }
-    video, img { max-width: 320px; margin: 10px; border: 1px solid #ccc; border-radius: 5px; }
-    #timer { font-size: 24px; margin-top: 10px; color: #d9534f; font-weight: bold; }
-    .textareaSection { margin: 10px 0; }
-    textarea {
-      width: 80%;
+    .stepSection h2 {
+      font-size: 1rem;
+      margin-bottom: 10px;
+      color: #007b5e;
+    }
+    .stepSection p {
+      font-size: 0.9rem;
+      color: #666;
+      margin-bottom: 10px;
+    }
+    .cameraSection {
+      margin-top: 10px;
+      display: none;
+    }
+    video, img {
+      max-width: 320px;
+      margin: 10px auto;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      display: block;
+    }
+    #timer {
+      font-size: 24px;
+      color: #d9534f;
+      margin-top: 10px;
+      font-weight: bold;
+    }
+    .textareaSection textarea {
+      width: 90%;
       height: 80px;
       margin: 10px 0;
       padding: 8px;
-      resize: vertical;
-      border-radius: 4px;
       border: 1px solid #ccc;
+      border-radius: 4px;
+      resize: vertical;
     }
     .aboutSection {
-      margin: 20px 0;
-      padding: 15px;
-      border: 1px solid #ddd;
-      border-radius: 5px;
-      background: #f0f8ff;
       text-align: left;
       font-size: 0.9rem;
       color: #333;
-    }
-    .aboutSection h3 { margin-bottom: 8px; color: #007b5e; }
-    .helpForm {
-      margin-top: 20px;
+      background: #f0f8ff;
       padding: 15px;
       border: 1px solid #ddd;
       border-radius: 5px;
-      background: #fff;
+      margin: 20px 0;
     }
-    .helpForm h3 { color: #007b5e; margin-bottom: 10px; font-size: 1rem; }
+    .aboutSection h3 {
+      margin-bottom: 8px;
+      color: #007b5e;
+    }
+    .helpForm {
+      background: #fff;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      padding: 15px;
+      margin: 20px 0;
+      text-align: left;
+    }
+    .helpForm h3 {
+      color: #007b5e;
+      margin-bottom: 10px;
+      font-size: 1rem;
+    }
     .helpForm textarea {
       width: 100%;
       height: 60px;
-      margin-bottom: 10px;
       padding: 8px;
       border: 1px solid #ccc;
       border-radius: 4px;
+      margin-bottom: 10px;
+      resize: vertical;
     }
     .helpForm button {
       background: #007b5e;
@@ -190,34 +200,87 @@
       cursor: pointer;
     }
     .contactInfo {
-      margin-top: 20px;
       text-align: left;
       font-size: 0.85rem;
-      color: #333;
       background: #e9f7ef;
-      border-radius: 6px;
       padding: 10px;
+      border-radius: 6px;
+      margin-top: 20px;
     }
-    .contactInfo h3 { color: #007b5e; font-size: 1rem; margin-bottom: 6px; }
-    .contactRow { display: flex; align-items: center; margin-bottom: 6px; }
-    .contactRow i { font-size: 1.2rem; margin-right: 8px; color: #007b5e; }
-    .contactNumber { font-weight: 500; color: #333; font-size: 0.9rem; }
+    .contactInfo h3 {
+      color: #007b5e;
+      margin-bottom: 6px;
+    }
+    .contactRow {
+      display: flex;
+      align-items: center;
+      margin-bottom: 6px;
+    }
+    .contactRow i {
+      font-size: 1.2rem;
+      margin-right: 8px;
+      color: #007b5e;
+    }
+    .contactNumber {
+      font-weight: 500;
+      color: #333;
+      font-size: 0.9rem;
+    }
+    .primaryBtn {
+      background: #007BFF;
+      color: #fff;
+      border: none;
+      border-radius: 4px;
+      padding: 10px 16px;
+      cursor: pointer;
+      margin: 5px;
+    }
+    .dangerBtn {
+      background: #dc3545;
+      color: #fff;
+      border: none;
+      border-radius: 4px;
+      padding: 10px 16px;
+      cursor: pointer;
+      margin: 5px;
+    }
+    .flashBtn {
+      background: #ffcc00;
+      color: #333;
+      border: none;
+      border-radius: 4px;
+      padding: 10px 16px;
+      cursor: pointer;
+      margin: 5px;
+    }
+    /* Toast Notification */
+    .toast {
+      position: fixed;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(0, 0, 0, 0.8);
+      color: #fff;
+      padding: 10px 20px;
+      border-radius: 4px;
+      opacity: 0;
+      transition: opacity 0.5s ease;
+      z-index: 1100;
+    }
   </style>
 </head>
 <body>
-  <!-- Global Back Arrow (only shown on non‑main pages via JS) -->
+  <!-- Global Back Arrow -->
   <div class="backArrow" id="globalBack" onclick="goBackGlobal()">
     <i class="fa fa-arrow-left"></i>
   </div>
 
   <!-- Header -->
   <header>
-    <!-- Left side: (Global Back Arrow is positioned absolutely above) -->
     <div class="headerCenter">
       <img id="logo" src="https://res.cloudinary.com/dly1jfwkn/image/upload/mmbo0lj2wuwnfuyjrsoi.jpg" alt="Mahanagar Gas Logo">
       <div class="headerTitle">MGL Gas Status Submission Portal</div>
     </div>
-    <!-- Right Side: Disclaimer and Hamburger Menu -->
     <div class="headerRight">
       <button class="disclaimerBtn" onclick="showDisclaimer()">
         <i class="fa fa-info-circle"></i> Disclaimer
@@ -238,7 +301,6 @@
       <h2>Login</h2>
       <div id="errorMessage"></div>
       <input type="text" id="bpnInput" placeholder="Enter Business Partner No">
-      <!-- CAPTCHA Section -->
       <div style="margin: 10px 0;">
         <label for="captchaInput">Enter Captcha: <span id="captchaDisplay" style="padding: 4px 8px; color: #fff;"></span></label><br>
         <input type="text" id="captchaInput" placeholder="Enter captcha">
@@ -255,7 +317,6 @@
     <p style="color:#007b5e; font-weight:600; margin-bottom:10px;">
       Welcome to MGL Gas Status Submission Portal
     </p>
-    <!-- Customer Details -->
     <h3 id="customerDetails">Welcome</h3>
 
     <!-- Option Selection -->
@@ -283,10 +344,8 @@
       </p>
     </div>
 
-    <!-- (The Using Gas, Not Using Gas, and Meter Disconnected workflows remain unchanged) -->
     <!-- Using Gas Workflow -->
     <div id="usingGasSteps" class="stepSection">
-      <!-- Step 1: Meter's First Photo -->
       <div id="usingStep1" class="stepSection" style="display:block;">
         <h2><i class="fa fa-tachometer-alt"></i> Meter's First Photo</h2>
         <p>Capture a clear photo of your meter display.</p>
@@ -307,7 +366,6 @@
         <br>
         <button class="primaryBtn" onclick="nextStepUsingGas(1)">Next</button>
       </div>
-      <!-- Step 2: Gas Flame Photo -->
       <div id="usingStep2" class="stepSection">
         <h2><i class="fa fa-fire"></i> Gas Flame Photo</h2>
         <p>Capture a clear photo of the gas flame.</p>
@@ -328,14 +386,12 @@
         <br>
         <button class="primaryBtn" onclick="nextStepUsingGas(2)">Next</button>
       </div>
-      <!-- Step 3: 30-second Timer -->
       <div id="usingStep3" class="stepSection">
         <h2><i class="fa fa-clock"></i> Wait 30 Seconds</h2>
         <p>Please wait 30 seconds before taking your second meter photo.</p>
         <div id="timer">30</div>
         <button class="primaryBtn" onclick="goBackUsingGas(3)">Back</button>
       </div>
-      <!-- Step 4: Meter's Second Photo -->
       <div id="usingStep4" class="stepSection">
         <h2><i class="fa fa-tachometer-alt"></i> Meter's Second Photo</h2>
         <p>Capture your meter display again.</p>
@@ -360,7 +416,6 @@
 
     <!-- Not Using Gas Workflow -->
     <div id="notUsingGasSteps" class="stepSection">
-      <!-- Step 1: Meter Photo -->
       <div id="notUsingStep1" class="stepSection" style="display:block;">
         <h2><i class="fa fa-tachometer-alt"></i> Meter Photo</h2>
         <p>Capture a clear photo of your meter display.</p>
@@ -381,7 +436,6 @@
         <br>
         <button class="primaryBtn" onclick="nextStepNotUsingGas(1)">Next</button>
       </div>
-      <!-- Step 2: Disconnected Pipe Photo -->
       <div id="notUsingStep2" class="stepSection">
         <h2><i class="fa fa-ban"></i> Disconnected Pipe Photo</h2>
         <p>Capture a clear photo of the disconnected or capped gas pipe.</p>
@@ -449,9 +503,6 @@
     </div>
   </div>
 
-  <!-- Toast Notification Container -->
-  <div class="toast" id="toast"></div>
-
   <script>
     // Prevent browser back button from closing the web app
     history.pushState(null, null, location.href);
@@ -463,7 +514,6 @@
      * Global Variables
      ***************************************************************/
     const urlParams = new URLSearchParams(window.location.search);
-    // Remove default "Guest" auto-fill; default to empty string.
     let bpn = urlParams.get('bpn') || "";
     let submissionStatus = "Pending";
     let currentCaptcha = "";
@@ -528,10 +578,8 @@
      * Global Back Button Functionality
      ***************************************************************/
     function goBackGlobal() {
-      // Use this global back arrow to navigate to the previous page in the history
       window.history.back();
     }
-    // (Optionally, you can customize this function to check the current process and navigate appropriately.)
 
     /***************************************************************
      * Login Overlay Functions
@@ -541,7 +589,7 @@
     const errorMessage = document.getElementById('errorMessage');
     function showLoginOverlay() {
       loginOverlay.style.display = 'flex';
-      bpnInput.value = ""; // Do not auto-fill with "Guest"
+      bpnInput.value = "";
       generateCaptcha();
     }
     function doLogin() {
@@ -610,7 +658,7 @@
     }
 
     /***************************************************************
-     * Back Navigation Functions (for workflows, unchanged)
+     * Back Navigation Functions for Workflows
      ***************************************************************/
     function goBackUsingGas(step) {
       if (step === 'fromStep1') {
@@ -645,7 +693,7 @@
      * Helper Functions for Camera & Flash
      ***************************************************************/
     function stopStream(videoElem) {
-      const tracks = videoElem.srcObject?.getTracks() || [];
+      const tracks = videoElem.srcObject ? videoElem.srcObject.getTracks() : [];
       tracks.forEach(track => track.stop());
       videoElem.srcObject = null;
     }
@@ -660,7 +708,6 @@
         showToast("Flash/torch not supported on this device.");
       }
     }
-    // Cloudinary upload function – uploads image with BPN included in public ID.
     async function uploadToCloudinary(file, type) {
       const formData = new FormData();
       formData.append("file", file);
@@ -1073,7 +1120,6 @@
       const formData = new FormData();
       formData.append("message", message);
       formData.append("bpn", bpn);
-      // Use the new deployment URL for help messages in no-cors mode.
       fetch("https://script.google.com/macros/s/AKfycbyQHnndoZmjXkwFy3-52PSUhCF--p9mKq2u98HXtYQlhPhcCgndma_yjBjgibWsUJ-v/exec", {
         method: "POST",
         mode: "no-cors",
