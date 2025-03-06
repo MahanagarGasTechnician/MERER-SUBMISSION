@@ -17,6 +17,7 @@
       color: #333;
       text-align: center;
       min-height: 100vh;
+      position: relative;
     }
     /* Header */
     header {
@@ -222,6 +223,39 @@
     .contactRow { display: flex; align-items: center; margin-bottom: 6px; }
     .contactRow i { font-size: 1.2rem; margin-right: 8px; color: #007b5e; }
     .contactNumber { font-weight: 500; color: #333; font-size: 0.9rem; }
+    
+    /* Custom Notification Styles */
+    .notification {
+      display: none;
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background-image: url('https://res.cloudinary.com/dly1jfwkn/image/upload/v1741287161/mnwxbl43gmhyqfmnjump.jpg');
+      background-size: cover;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.5);
+      z-index: 10000;
+      max-width: 80%;
+      color: #000;
+      font-family: 'Roboto', sans-serif;
+    }
+    .notification p {
+      font-size: 1.1rem;
+      margin-bottom: 20px;
+      font-weight: bold;
+    }
+    .notification button {
+      background-color: #007BFF;
+      color: #fff;
+      padding: 8px 16px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 1rem;
+      font-weight: bold;
+    }
   </style>
 </head>
 <body>
@@ -261,6 +295,12 @@
       <!-- Back / Cancel Button for Login -->
       <button class="dangerBtn" onclick="cancelLogin()">Cancel</button>
     </div>
+  </div>
+
+  <!-- Notification Overlay -->
+  <div class="notification" id="notification">
+    <p id="notificationText">Notification Text Here</p>
+    <button onclick="hideNotification()">OK</button>
   </div>
 
   <!-- Main Container -->
@@ -431,10 +471,10 @@
       </button>
       <div id="cameraSectionDisconnected" class="cameraSection">
         <video id="videoDisconnected" autoplay playsinline></video><br>
-        <button class="primaryBtn" id="captureBtnDisconnected">Capture</button>
-        <button class="dangerBtn" id="retakeDisconnected" style="display:none;">Retake</button>
-        <button class="primaryBtn" id="doneDisconnected" style="display:none;">Done</button>
-        <button class="primaryBtn" onclick="goBackDisconnected()">Back</button>
+          <button class="primaryBtn" id="captureBtnDisconnected">Capture</button>
+          <button class="dangerBtn" id="retakeDisconnected" style="display:none;">Retake</button>
+          <button class="primaryBtn" id="doneDisconnected" style="display:none;">Done</button>
+          <button class="primaryBtn" onclick="goBackDisconnected()">Back</button>
       </div>
       <img id="disconnectedPreview" style="display:none;" alt="Disconnected Photo Preview">
       <br>
@@ -576,10 +616,10 @@
       }
     }
     function showCustomerDetails() {
-      alert("Customer Details:\n" + document.getElementById('customerDetails').innerText + "\nBPN: " + bpn);
+      showNotification("Customer Details:\n" + document.getElementById('customerDetails').innerText + "\nBPN: " + bpn);
     }
     function showSubmissionStatus() {
-      alert("Submission Status: " + submissionStatus);
+      showNotification("Submission Status: " + submissionStatus);
     }
     function doLogout() {
       bpn = "Guest";
@@ -612,10 +652,26 @@
       bpn = val;
       loginOverlay.style.display = 'none';
       fetchCustomerDetails();
+      showNotification("Login successful!");
     }
-    // New function to cancel login and close the overlay
+    // New function to cancel login and close the overlay (Back Button)
     function cancelLogin() {
       loginOverlay.style.display = 'none';
+      window.history.back(); // Go back in history if desired.
+    }
+
+    /***************************************************************
+     * Notification Functions
+     ***************************************************************/
+    function showNotification(message) {
+      const notification = document.getElementById('notification');
+      const notificationText = document.getElementById('notificationText');
+      notificationText.innerText = message;
+      notification.style.display = 'block';
+    }
+    function hideNotification() {
+      const notification = document.getElementById('notification');
+      notification.style.display = 'none';
     }
 
     /***************************************************************
@@ -646,7 +702,7 @@
      ***************************************************************/
     function showDisclaimer() {
       const disclaimerText = "This portal is for routine checking of customer gas usage status submission and is not officially affiliated with Mahanagar Gas Limited. If you are unable to log in, please note that the data is not provided by MGL to us for this process. This portal is owned and operated by a private company contracted by Mahanagar Gas Limited.";
-      alert(disclaimerText);
+      showNotification(disclaimerText);
     }
 
     /***************************************************************
@@ -761,7 +817,7 @@
         meter1Stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: "environment" } });
         videoMeter1.srcObject = meter1Stream;
       } catch (error) {
-        alert("Unable to access camera: " + error.message);
+        showNotification("Unable to access camera: " + error.message);
       }
     });
     flashMeter1Btn.addEventListener('click', async () => {
@@ -818,7 +874,7 @@
         flameStream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: "environment" } });
         videoFlame.srcObject = flameStream;
       } catch (error) {
-        alert("Unable to access camera: " + error.message);
+        showNotification("Unable to access camera: " + error.message);
       }
     });
     flashFlameBtn.addEventListener('click', async () => {
@@ -880,7 +936,7 @@
         meter2Stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: "environment" } });
         videoMeter2.srcObject = meter2Stream;
       } catch (error) {
-        alert("Unable to access camera: " + error.message);
+        showNotification("Unable to access camera: " + error.message);
       }
     });
     flashMeter2Btn.addEventListener('click', async () => {
@@ -916,7 +972,7 @@
     });
     async function submitImagesUsingGas() {
       if (!meter1Blob || !flameBlob || !meter2Blob) {
-        alert("Please capture all required images for the 'Using Gas' option.");
+        showNotification("Please capture all required images for the 'Using Gas' option.");
         return;
       }
       try {
@@ -924,9 +980,9 @@
         const flameUrl = await uploadToCloudinary(flameBlob, "gas_flame");
         const meter2Url = await uploadToCloudinary(meter2Blob, "meter_photo2");
         submissionStatus = "Submitted";
-        alert("Images uploaded successfully!");
+        showNotification("Images uploaded successfully!");
       } catch (error) {
-        alert("Image upload failed: " + error.message);
+        showNotification("Image upload failed: " + error.message);
       }
     }
 
@@ -950,7 +1006,7 @@
         meter1NotUsingStream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: "environment" } });
         videoMeter1NotUsing.srcObject = meter1NotUsingStream;
       } catch (error) {
-        alert("Unable to access camera: " + error.message);
+        showNotification("Unable to access camera: " + error.message);
       }
     });
     flashMeter1NotUsingBtn.addEventListener('click', async () => {
@@ -1004,7 +1060,7 @@
         pipeStream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: "environment" } });
         videoPipe.srcObject = pipeStream;
       } catch (error) {
-        alert("Unable to access camera: " + error.message);
+        showNotification("Unable to access camera: " + error.message);
       }
     });
     flashPipeBtn.addEventListener('click', async () => {
@@ -1040,16 +1096,16 @@
     });
     async function submitImagesNotUsingGas() {
       if (!meter1NotUsingBlob || !pipeBlob) {
-        alert("Please capture all required images for the 'Not Using Gas' option.");
+        showNotification("Please capture all required images for the 'Not Using Gas' option.");
         return;
       }
       try {
         const meter1Url = await uploadToCloudinary(meter1NotUsingBlob, "meter_photo");
         const pipeUrl = await uploadToCloudinary(pipeBlob, "pipe_photo");
         submissionStatus = "Submitted";
-        alert("Images uploaded successfully!");
+        showNotification("Images uploaded successfully!");
       } catch (error) {
-        alert("Image upload failed: " + error.message);
+        showNotification("Image upload failed: " + error.message);
       }
     }
 
@@ -1073,7 +1129,7 @@
         disconnectedStream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: "environment" } });
         videoDisconnected.srcObject = disconnectedStream;
       } catch (error) {
-        alert("Unable to access camera: " + error.message);
+        showNotification("Unable to access camera: " + error.message);
       }
     });
     flashDisconnectedBtn.addEventListener('click', async () => {
@@ -1110,17 +1166,17 @@
     async function submitDisconnected() {
       const description = disconnectDesc.value.trim();
       if (!description || !disconnectedBlob) {
-        alert("Please enter a description and capture an image for the disconnected meter option.");
+        showNotification("Please enter a description and capture an image for the disconnected meter option.");
         return;
       }
       try {
         const disconnectedUrl = await uploadToCloudinary(disconnectedBlob, "disconnected_photo");
         submissionStatus = "Submitted";
-        alert("Submission successful!");
+        showNotification("Submission successful!");
         console.log("Disconnected Image URL:", disconnectedUrl);
         console.log("Description:", description);
       } catch (error) {
-        alert("Image upload failed: " + error.message);
+        showNotification("Image upload failed: " + error.message);
       }
     }
 
@@ -1130,7 +1186,7 @@
     function sendHelpMessage() {
       const message = document.getElementById('helpMessage').value.trim();
       if (!message) {
-        alert("Please enter your message.");
+        showNotification("Please enter your message.");
         return;
       }
       const formData = new FormData();
@@ -1142,12 +1198,12 @@
         body: formData
       })
       .then(() => {
-        alert("Your message has been sent.");
+        showNotification("Your message has been sent.");
         document.getElementById('helpMessage').value = "";
       })
       .catch(error => {
         console.error("Error sending help message:", error);
-        alert("Error sending message: " + error);
+        showNotification("Error sending message: " + error);
       });
     }
   </script>
