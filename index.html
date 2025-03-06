@@ -127,6 +127,7 @@
       border: none;
       border-radius: 4px;
       cursor: pointer;
+      margin: 5px;
     }
     #customerDetails {
       margin: 10px 0;
@@ -252,8 +253,13 @@
       <div style="margin: 10px 0;">
         <label for="captchaInput">Enter Captcha: <span id="captchaDisplay" style="padding: 4px 8px; color: #fff;"></span></label><br>
         <input type="text" id="captchaInput" placeholder="Enter captcha">
+        <br>
+        <!-- Refresh Captcha Button -->
+        <button class="primaryBtn" onclick="generateCaptcha()">Refresh Captcha</button>
       </div>
       <button onclick="doLogin()">Login</button>
+      <!-- Back / Cancel Button for Login -->
+      <button class="dangerBtn" onclick="cancelLogin()">Cancel</button>
     </div>
   </div>
 
@@ -606,6 +612,10 @@
       bpn = val;
       loginOverlay.style.display = 'none';
       fetchCustomerDetails();
+    }
+    // New function to cancel login and close the overlay
+    function cancelLogin() {
+      loginOverlay.style.display = 'none';
     }
 
     /***************************************************************
