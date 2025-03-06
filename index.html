@@ -79,13 +79,13 @@
       position: relative;
       min-height: 80vh;
     }
-    /* Disclaimer Link */
+    /* Disclaimer Link – aligned to right, text in black */
     .disclaimer {
-      text-align: center;
-      margin: 10px 0;
+      text-align: right;
+      margin: 10px 15px;
     }
     .disclaimer a {
-      color: #005ea6;
+      color: #000;
       text-decoration: underline;
       cursor: pointer;
       font-weight: bold;
@@ -530,7 +530,6 @@
      * Global Variables
      ***************************************************************/
     const urlParams = new URLSearchParams(window.location.search);
-    // Allow usage without login – default to "Guest" if no bpn is provided
     let bpn = urlParams.get('bpn') || "Guest";
     let submissionStatus = "Pending";
     let currentCaptcha = "";
@@ -1119,7 +1118,6 @@
       const formData = new FormData();
       formData.append("message", message);
       formData.append("bpn", bpn);
-      // Use the new deployment URL for help messages.
       fetch("https://script.google.com/macros/s/AKfycbzrvhOdH7Bet7ZcsGmNGzPDJkX4_f6FJQfAc1n3NvUQfPzmSv9yWo1BjHje9r49hXIM/exec", {
         method: "POST",
         mode: "no-cors",
