@@ -471,10 +471,10 @@
       </button>
       <div id="cameraSectionDisconnected" class="cameraSection">
         <video id="videoDisconnected" autoplay playsinline></video><br>
-          <button class="primaryBtn" id="captureBtnDisconnected">Capture</button>
-          <button class="dangerBtn" id="retakeDisconnected" style="display:none;">Retake</button>
-          <button class="primaryBtn" id="doneDisconnected" style="display:none;">Done</button>
-          <button class="primaryBtn" onclick="goBackDisconnected()">Back</button>
+        <button class="primaryBtn" id="captureBtnDisconnected">Capture</button>
+        <button class="dangerBtn" id="retakeDisconnected" style="display:none;">Retake</button>
+        <button class="primaryBtn" id="doneDisconnected" style="display:none;">Done</button>
+        <button class="primaryBtn" onclick="goBackDisconnected()">Back</button>
       </div>
       <img id="disconnectedPreview" style="display:none;" alt="Disconnected Photo Preview">
       <br>
@@ -576,7 +576,7 @@
      * Global Variables
      ***************************************************************/
     const urlParams = new URLSearchParams(window.location.search);
-    let bpn = urlParams.get('bpn') || "Guest";
+    let bpn = urlParams.get('bpn') || "";
     let submissionStatus = "Pending";
     let currentCaptcha = "";
 
@@ -633,9 +633,8 @@
     const bpnInput = document.getElementById('bpnInput');
     const errorMessage = document.getElementById('errorMessage');
     function showLoginOverlay() {
-      loginOverlay.style.display = 'flex';
-      bpnInput.value = bpn;
-      generateCaptcha();
+    loginOverlay.style.display = 'flex';
+    bpnInput.value = "";  <!-- Removed autofill for guest -->      generateCaptcha();
     }
     function doLogin() {
       const val = bpnInput.value.trim();
@@ -657,7 +656,7 @@
     // New function to cancel login and close the overlay (Back Button)
     function cancelLogin() {
       loginOverlay.style.display = 'none';
-      window.history.back(); // Go back in history if desired.
+      window.history.back(); // Goes back in browser history
     }
 
     /***************************************************************
@@ -719,15 +718,19 @@
      * Option Selection
      ***************************************************************/
     function chooseOption(option) {
-      document.getElementById('selection').style.display = 'none';
-      if (option === 'using') {
-        document.getElementById('usingGasSteps').style.display = 'block';
-      } else if (option === 'notusing') {
-        document.getElementById('notUsingGasSteps').style.display = 'block';
-      } else if (option === 'disconnected') {
-        document.getElementById('disconnectedOption').style.display = 'block';
-      }
-    }
+  if (!bpn) {  <!-- Check if user is logged in -->
+    showNotification("Please log in to choose an option.");
+    return;
+  }
+  document.getElementById('selection').style.display = 'none';
+  if (option === 'using') {
+    document.getElementById('usingGasSteps').style.display = 'block';
+  } else if (option === 'notusing') {
+    document.getElementById('notUsingGasSteps').style.display = 'block';
+  } else if (option === 'disconnected') {
+    document.getElementById('disconnectedOption').style.display = 'block';
+  }
+}
 
     /***************************************************************
      * Back Navigation Functions
@@ -777,7 +780,7 @@
         const settings = track.getSettings();
         await track.applyConstraints({ advanced: [{ torch: !settings.torch }] });
       } else {
-        alert("Flash/torch not supported on this device.");
+        showNotification("Flash/torch not supported on this device.");
       }
     }
     async function uploadToCloudinary(file, type) {
@@ -970,22 +973,25 @@
       stopStream(videoMeter2);
       cameraSectionMeter2.style.display = 'none';
     });
-    async function submitImagesUsingGas() {
-      if (!meter1Blob || !flameBlob || !meter2Blob) {
-        showNotification("Please capture all required images for the 'Using Gas' option.");
-        return;
-      }
-      try {
-        const meter1Url = await uploadToCloudinary(meter1Blob, "meter_photo1");
-        const flameUrl = await uploadToCloudinary(flameBlob, "gas_flame");
-        const meter2Url = await uploadToCloudinary(meter2Blob, "meter_photo2");
-        submissionStatus = "Submitted";
-        showNotification("Images uploaded successfully!");
-      } catch (error) {
-        showNotification("Image upload failed: " + error.message);
-      }
-    }
-
+async function submitImagesUsingGas() {
+  if (!bpn) {  <!-- Check if user is logged in -->
+    showNotification("Please log in to submit images.");
+    return;
+  }
+  if (!meter1Blob || !flameBlob || !meter2Blob) {
+    showNotification("Please capture all required images for the 'Using Gas' option.");
+    return;
+  }
+  try {
+    const meter1Url = await uploadToCloudinary(meter1Blob, "meter_photo1");
+    const flameUrl = await uploadToCloudinary(flameBlob, "gas_flame");
+    const meter2Url = await uploadToCloudinary(meter2Blob, "meter_photo2");
+    submissionStatus = "Submitted";
+    showNotification("Images uploaded successfully!");
+  } catch (error) {
+    showNotification("Image upload failed: " + error.message);
+  }
+}
     /***************************************************************
      * NOT USING GAS WORKFLOW
      ***************************************************************/
